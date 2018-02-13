@@ -1,0 +1,21 @@
+{
+  "name": "tax-manager",
+  "version": "1.0.0",
+  "description": "It is a tax management app for the panchayat",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package:win":
+      "electron-packager . TaxManager --platform=win32 --overwrite --out=./dist"
+  },
+  "keywords": ["electron", "tax", "panchayat"],
+  "author": "ameerthehacker",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.8.2",
+    "electron-packager": "^11.0.1"
+  },
+  "dependencies": {
+    "dotenv": "^5.0.0"
+  }
+}

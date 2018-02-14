@@ -1,7 +1,7 @@
 {
-  "name": "tax-manager",
+  "name": "tax-manager-electron",
   "version": "1.0.0",
-  "description": "It is a tax management app for the panchayat",
+  "description": "It is a tax management electron app for the panchayat",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

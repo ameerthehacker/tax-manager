@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
+import { tokenNotExpired } from "angular2-jwt";
 
 import { Router } from "@angular/router";
 
@@ -42,6 +43,10 @@ export class AuthService {
           resolve(result.username);
         });
     });
+  }
+
+  isLoggedIn(): boolean {
+    return tokenNotExpired();
   }
 
   interceptRequest(observable: Observable<Response>): Promise<Object> {

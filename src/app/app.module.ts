@@ -12,6 +12,7 @@ import { APP_ROUTES } from "./routes/app.route";
 import { HomeComponent } from "./components/home/home.component";
 
 import { AuthService } from "./services/auth/auth.service";
+import { AuthGuard } from "./guards/auth/auth.guard";
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent],
@@ -22,7 +23,7 @@ import { AuthService } from "./services/auth/auth.service";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

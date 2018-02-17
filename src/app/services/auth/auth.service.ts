@@ -45,6 +45,10 @@ export class AuthService {
     });
   }
 
+  logout() {
+    localStorage.clear();
+  }
+
   isLoggedIn(): boolean {
     return tokenNotExpired();
   }

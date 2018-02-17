@@ -1,0 +1,11 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <a [routerLink]="['/']" class="navbar-brand">Tax Manager</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav">
+      <li class="navbar-item">
+        <a class="nav-link" [routerLink]="['/login']" *ngIf="!auth.isLoggedIn()">Login</a>
+        <a class="nav-link" href="#" (click)="onBtnLogoutClick($event)" *ngIf="auth.isLoggedIn()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>

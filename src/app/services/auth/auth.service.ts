@@ -40,7 +40,7 @@ export class AuthService {
             localStorage.username = result.username;
             localStorage.token = result.token;
           }
-          resolve(result.username);
+          resolve(result);
         });
     });
   }

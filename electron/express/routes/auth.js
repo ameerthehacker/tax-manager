@@ -24,7 +24,7 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        res.json({ error: "Invalid username or password" });
+        res.json({ error: "Your password is incorrect" });
       }
     })
     .catch(err => {

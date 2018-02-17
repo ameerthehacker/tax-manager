@@ -4,17 +4,23 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title text-center">Login</h4>
-          <form action="">
+          <form action="" [formGroup]="frmLogin" (submit)="onFrmLoginSubmit()">
             <div class="form-group">
               <label for="username">Username</label>
-              <input class="form-control" type="text" id="username" placeholder="Username">
+              <input class="form-control" type="text" id="username" formControlName="username" placeholder="Username">
+              <div class="error-field" *ngIf="username.invalid && username.touched">
+                This field is required
+              </div>
             </div>
             <div class="form-group">
               <label for="username">Password</label>
-              <input class="form-control" type="text" id="password" placeholder="Password">
+              <input class="form-control" type="text" id="password" formControlName="password" placeholder="Password">
+              <div class="error-field" *ngIf="password.invalid && password.touched">
+                This field is required
+              </div>
             </div>
             <div class="form-group">
-              <button class="btn btn-lg btn-success" type="submit">Login</button>
+              <button class="btn btn-lg btn-success" [disabled]="frmLogin.invalid" type="submit">Login</button>
             </div>
           </form>
         </div>

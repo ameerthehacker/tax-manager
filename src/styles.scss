@@ -5,3 +5,12 @@
 body {
   margin-top: 60px;
 }
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red !important;
+}
+
+div.error-field {
+  font-size: small;
+  color: red;
+}

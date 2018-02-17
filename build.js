@@ -11,7 +11,7 @@ if (!filepath.endsWith("/")) {
 }
 
 exec(
-  `ng build --prod --base-href=file:///${filepath}electron/app/`,
+  `ng build --base-href=file:///${filepath}electron/app/`,
   (err, stdout, stderr) => {
     if (err) {
       console.log(`ERROR: Unable to build angular app: ${JSON.stringify(err)}`);

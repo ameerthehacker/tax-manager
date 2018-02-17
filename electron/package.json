@@ -5,12 +5,15 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package:win":
-      "electron-packager . TaxManager --platform=win32 --overwrite --out=./dist",
+    "package:win": "electron-packager . TaxManager --platform=win32 --overwrite --out=./dist",
     "express:start": "nodemon ./express/app.js",
     "electron:rebuild": "electron-rebuild -f -w sqlite3"
   },
-  "keywords": ["electron", "tax", "panchayat"],
+  "keywords": [
+    "electron",
+    "tax",
+    "panchayat"
+  ],
   "author": "ameerthehacker",
   "license": "MIT",
   "devDependencies": {
@@ -21,6 +24,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "dotenv": "^5.0.0",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",

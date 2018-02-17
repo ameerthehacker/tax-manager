@@ -17,7 +17,7 @@ router.post("/login", (req, res) => {
           process.env.secret || "secret",
           (err, token) => {
             if (!err) {
-              res.json({ error: false, token: token });
+              res.json({ error: false, token: token, username: user.username });
             } else {
               res.json({ error: err });
             }
@@ -28,7 +28,7 @@ router.post("/login", (req, res) => {
       }
     })
     .catch(err => {
-      res.json({ error: err });
+      res.json({ error: "Unable to find your account" });
     });
 });
 

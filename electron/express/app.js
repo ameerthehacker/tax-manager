@@ -7,6 +7,7 @@ const path = require("path");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
+const cors = require("cors");
 // Routes for the app
 const auth = require("./routes/auth");
 const houses = require("./routes/houses");
@@ -51,6 +52,8 @@ passport.use(
   )
 );
 
+// CORS module to allow cross site request
+app.use(cors());
 app.use(bodyParser.json());
 
 module.exports = app;

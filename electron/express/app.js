@@ -11,6 +11,8 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const auth = require("./routes/auth");
 const houses = require("./routes/houses");
 const sqlite = require("sqlite3").verbose();
+// Models
+const User = require("./models/User");
 
 // Configure the sqlite database
 const db = new sqlite.Database(
@@ -19,6 +21,7 @@ const db = new sqlite.Database(
   err => {
     if (!err) {
       console.log("Connected to database...");
+      createSchema();
     } else {
       console.error(`Unable to connect to database: ${err.message}`);
     }
@@ -33,8 +36,17 @@ passport.use(
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
     },
     (payload, done) => {
-      console.log(payload);
-      return done(null, { user: "ameer" });
+      User.findUserByUsername(db, payload.username)
+        .then(user => {
+          if (user) {
+            return done(null, { username: user.username });
+          } else {
+            return done(null, false);
+          }
+        })
+        .catch(err => {
+          return done(err, null);
+        });
     }
   )
 );
@@ -47,7 +59,18 @@ module.exports = app;
 app.use("/auth", auth);
 app.use("/houses", passport.authenticate("jwt", { session: false }), houses);
 
+// Set the database object
+app.set("db", db);
+
 app.listen(process.env.port || 3000, () => {
   console.log("Express server is up and running...");
   app.emit("listening");
 });
+
+function createSchema() {
+  db.serialize(() => {
+    db.run(
+      `CREATE TABLE IF NOT EXISTS users (username STRING PRIMARY_KEY, password STRING)`
+    );
+  });
+}

@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
+import { NgFlashMessageService } from "ng-flash-messages";
 
 @Component({
   selector: "tm-login",
@@ -16,7 +17,11 @@ export class LoginComponent implements OnInit {
     password: new FormControl("", Validators.required)
   });
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private flashMessage: NgFlashMessageService
+  ) {}
 
   ngOnInit() {}
 
@@ -32,6 +37,13 @@ export class LoginComponent implements OnInit {
       .then((result: any) => {
         if (!result.error) {
           this.router.navigate(["/"]);
+        } else {
+          this.flashMessage.showFlashMessage({
+            dismissible: true,
+            type: "danger",
+            timeout: 3000,
+            messages: [result.error]
+          });
         }
       })
       .catch(err => {

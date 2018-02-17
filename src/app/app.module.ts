@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { HttpModule } from "@angular/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgFlashMessagesModule } from "ng-flash-messages";
 
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -21,7 +22,8 @@ import { AuthGuard } from "./guards/auth/auth.guard";
     RouterModule.forRoot(APP_ROUTES),
     HttpModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgFlashMessagesModule.forRoot()
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

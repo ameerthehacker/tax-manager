@@ -4,6 +4,7 @@
 /electron/app
 /electron/dist
 /electron/.env
+/electron/express/db
 /dist-server
 /tmp
 /out-tsc

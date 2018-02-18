@@ -53,7 +53,7 @@ export class AuthService {
     return tokenNotExpired();
   }
 
-  interceptRequest(observable: Observable<Response>): Promise<Object> {
+  interceptRequest(observable: Observable<Response>): Promise<any> {
     return new Promise<Object>((resolve, reject) => {
       observable
         .map((result: Response) => result.json())
@@ -79,7 +79,7 @@ export class AuthService {
     return headers;
   }
 
-  get(url: string): Promise<Object> {
+  get(url: string): Promise<any> {
     const observable: Observable<Response> = this.http.get(this.getURL(url), {
       headers: this.getHeaders()
     });
@@ -87,7 +87,7 @@ export class AuthService {
     return this.interceptRequest(observable);
   }
 
-  post(url: string, body: Object): Promise<Object> {
+  post(url: string, body: Object): Promise<any> {
     const observable: Observable<Response> = this.http.post(
       this.getURL(url),
       JSON.stringify(body),

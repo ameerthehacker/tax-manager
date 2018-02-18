@@ -58,8 +58,8 @@ export class AuthService {
       observable
         .map((result: Response) => result.json())
         .catch((err: any) => {
-          if (err.status == 403) {
-            this.router.navigate(["/auth/login"]);
+          if (err.status == 401) {
+            this.router.navigate(["/login"]);
           }
           reject(err);
           return Observable.throw(err);

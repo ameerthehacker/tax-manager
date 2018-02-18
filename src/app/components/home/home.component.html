@@ -1,9 +1,15 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4 col-lg-2 col-sm-12">
-      <select class="form-control">
-        <option *ngFor="let sheet of sheets" [value]="sheet.id">{{sheet.from_year}}-{{sheet.to_year}}</option>
+      <select class="form-control" (change)="onSelectedSheetChange($event)">
+        <!-- Make sure that the last option is selected by default -->
+        <option selected="{{ (i == sheets.length) }}" *ngFor="let sheet of sheets; let i = index" [value]="sheet.id">{{sheet.from_year}}-{{sheet.to_year}}</option>
       </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <tm-sheet [sheetDetails]="sheetDetails"></tm-sheet>
     </div>
   </div>
 </div>

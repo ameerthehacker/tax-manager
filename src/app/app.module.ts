@@ -15,9 +15,10 @@ import { HomeComponent } from "./components/home/home.component";
 import { AuthService } from "./services/auth/auth.service";
 import { AuthGuard } from "./guards/auth/auth.guard";
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { SheetComponent } from './components/sheet/sheet.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, NavbarComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, NavbarComponent, SheetComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot(APP_ROUTES),

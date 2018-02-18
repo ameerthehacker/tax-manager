@@ -14,4 +14,16 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/:id", (req, res) => {
+  const db = req.app.get("db");
+  const id = req.params.id;
+  Sheet.getSheet(db, id)
+    .then(sheet => {
+      res.json({ error: false, sheet: sheet });
+    })
+    .catch(err => {
+      res.json({ error: err });
+    });
+});
+
 module.exports = router;

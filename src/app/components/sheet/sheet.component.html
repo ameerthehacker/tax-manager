@@ -1,0 +1,23 @@
+<div class="row no-gutters">
+  <div class="col-sm-3">
+    <table class="table table-bordered">
+      <tr>
+        <th>Owner Name</th>
+      </tr>
+      <tr *ngFor="let detail of sheetDetails.details">
+        <td>{{ detail.owner_name }}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-sm-9">
+    <table class="table table-bordered">
+      <tr>
+        <th class="rotate" *ngFor="let availableTax of sheetDetails.availableTaxes">{{ availableTax }} Tax</th>
+      </tr>
+      <!-- List the tax and the amount paid -->
+      <tr *ngFor="let detail of sheetDetails.details">
+        <td *ngFor="let tax of detail.taxes">{{ (tax.paidAmount || "-") }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -98,4 +98,16 @@ export class AuthService {
 
     return this.interceptRequest(observable);
   }
+
+  put(url: string, body: Object): Promise<any> {
+    const observable: Observable<Response> = this.http.put(
+      this.getURL(url),
+      JSON.stringify(body),
+      {
+        headers: this.getHeaders()
+      }
+    );
+
+    return this.interceptRequest(observable);
+  }
 }

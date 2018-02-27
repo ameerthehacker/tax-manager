@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   loadSheet(id: string) {
     let sheet: any = {};
+    let blanceSheet = {};
 
     this.auth.get(`sheets/${id}`).then(result => {
       if (!result.error) {
@@ -41,6 +42,32 @@ export class HomeComponent implements OnInit {
         sheet.availableTaxes = result.sheet.availableTaxes;
         // Set the houses
         sheet.availableHouses = result.sheet.availableHouses;
+        sheet.availableHouses.forEach(availableHouse => {
+          blanceSheet[availableHouse.id] = {
+            owner_name: availableHouse.owner_name,
+            taxes: {}
+          };
+        });
+
+        result.sheet.currentBalanceSheet.forEach(details => {
+          blanceSheet[details.house_id].taxes[details.tax_id] = {
+            name: details.tax,
+            currentYear: details.amount
+          };
+        });
+
+        result.sheet.previousBalanceSheet.forEach(details => {
+          if (blanceSheet[details.house_id].taxes[details.tax_id]) {
+            blanceSheet[details.house_id].taxes[details.tax_id].previousYear =
+              details.balance;
+          } else {
+            blanceSheet[details.house_id].taxes[details.tax_id] = {
+              name: details.tax,
+              previousYear: details.balance
+            };
+          }
+        });
+        sheet.balanceSheet = blanceSheet;
         this.sheetDetails = sheet;
       }
     });

@@ -15,19 +15,41 @@
   <div class="col-sm-9">
     <table class="table table-bordered table-responsive">
       <tr>
-        <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} Tax</th>
+        <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="3">{{ availableTax.tax }} Tax</th>
       </tr>
       <tr>
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
           <th>Previous</th>
           <th>Current</th>
           <th>Total</th>
-          <th>Paid</th>
-          <th>Balance</th>
         </ng-container>
       </tr>
-      <tr>
-
+      <tr *ngFor="let availableHouse of sheetDetails.availableHouses">
+        <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
+          <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">
+            <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear">
+              {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear }}
+            </td>
+            <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear">
+              -
+            </td>
+            <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
+              {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear }}
+            </td>
+            <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
+              -
+            </td>
+            <td>
+              {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear + sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
+              }}
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+          </ng-container>
+        </ng-container>
       </tr>
       <!-- List the tax and the amount paid -->
     </table>

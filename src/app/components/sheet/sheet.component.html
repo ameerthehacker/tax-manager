@@ -4,15 +4,30 @@
       <tr>
         <th>Owner Name</th>
       </tr>
+      <tr>
+        <th>&nbsp;</th>
+      </tr>
       <tr *ngFor="let availableHouse of sheetDetails.availableHouses">
         <td>{{ availableHouse.owner_name }}</td>
       </tr>
     </table>
   </div>
   <div class="col-sm-9">
-    <table class="table table-bordered">
+    <table class="table table-bordered table-responsive">
       <tr>
-        <th *ngFor="let availableTax of sheetDetails.availableTaxes">{{ availableTax.tax }}</th>
+        <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} Tax</th>
+      </tr>
+      <tr>
+        <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
+          <th>Previous</th>
+          <th>Current</th>
+          <th>Total</th>
+          <th>Paid</th>
+          <th>Balance</th>
+        </ng-container>
+      </tr>
+      <tr>
+
       </tr>
       <!-- List the tax and the amount paid -->
     </table>

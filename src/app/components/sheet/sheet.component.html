@@ -1,23 +1,12 @@
 <div class="row no-gutters">
-  <div class="col-sm-3">
-    <table class="table table-bordered">
-      <tr>
-        <th>Owner Name</th>
-      </tr>
-      <tr>
-        <th>&nbsp;</th>
-      </tr>
-      <tr *ngFor="let availableHouse of sheetDetails.availableHouses">
-        <td>{{ availableHouse.owner_name }}</td>
-      </tr>
-    </table>
-  </div>
-  <div class="col-sm-9">
+  <div class="col-sm-12">
     <table class="table table-bordered table-responsive">
       <tr>
+        <th>Owner Name</th>
         <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} Tax</th>
       </tr>
       <tr>
+        <th>-</th>
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
           <th>Previous</th>
           <th>Current</th>
@@ -27,6 +16,7 @@
         </ng-container>
       </tr>
       <tr *ngFor="let availableHouse of sheetDetails.availableHouses">
+        <td>{{ availableHouse.owner_name }}</td>
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
           <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">
             <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear">

@@ -13,6 +13,36 @@ module.exports = {
       });
     });
   },
+  updateAmount: (db, id, houseId, taxId, amount) => {
+    return new Promise((resolve, reject) => {
+      db.run(
+        "UPDATE payments SET amount=? WHERE sheet_id=? AND house_id=? AND tax_id=?",
+        [amount, id, houseId, taxId],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
+        }
+      );
+    });
+  },
+  updatePaid: (db, id, houseId, taxId, amount) => {
+    return new Promise((resolve, reject) => {
+      db.run(
+        "UPDATE payments SET paid_amount=? WHERE sheet_id=? AND house_id=? AND tax_id=?",
+        [amount, id, houseId, taxId],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
+        }
+      );
+    });
+  },
   getSheet: (db, id) => {
     let previousBalanceSheet = {};
     let currentBalanceSheet = {};

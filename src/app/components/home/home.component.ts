@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
 
     this.auth.get(`sheets/${id}`).then(result => {
       if (!result.error) {
+        sheet.id = result.sheet.id;
         // Set the list of available taxes
         sheet.availableTaxes = result.sheet.availableTaxes;
         // Set the houses

@@ -22,7 +22,7 @@
           <th>Previous</th>
           <th>Current</th>
           <th>Total</th>
-          <th>Paid</th>
+          <th>Paid Amount</th>
           <th>Balance</th>
         </ng-container>
       </tr>
@@ -36,7 +36,15 @@
               -
             </td>
             <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
-              {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear }}
+              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable">
+                {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear }} &nbsp;
+                <a (click)="onCurrentYearEditClick($event, availableHouse.id, availableTax.id)" href="#">
+                  <i class="fa fa-1x fa-pencil"></i>
+                </a>
+              </ng-container>
+              <input type="text" (blur)="onCurrentYearBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)" (keypress)="onCurrentYearKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id)"
+                class="form-control" *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable"
+                [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
             </td>
             <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
               -
@@ -46,7 +54,15 @@
               || 0) }}
             </td>
             <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
-              {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount }}
+              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable">
+                {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount }} &nbsp;
+                <a (click)="onPaidAmountEditClick($event, availableHouse.id, availableTax.id)" href="#">
+                  <i class="fa fa-1x fa-pencil"></i>
+                </a>
+              </ng-container>
+              <input type="text" (blur)="onPaidAmountBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)" (keypress)="onPaidAmountKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id)"
+                class="form-control" *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable"
+                [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
             </td>
             <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
               -

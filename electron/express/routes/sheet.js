@@ -19,6 +19,7 @@ router.get("/:id", (req, res) => {
   const id = req.params.id;
   Sheet.getSheet(db, id)
     .then(sheet => {
+      sheet.id = id;
       res.json({ error: false, sheet: sheet });
     })
     .catch(err => {

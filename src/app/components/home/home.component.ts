@@ -52,7 +52,8 @@ export class HomeComponent implements OnInit {
         result.sheet.currentBalanceSheet.forEach(details => {
           blanceSheet[details.house_id].taxes[details.tax_id] = {
             name: details.tax,
-            currentYear: details.amount
+            currentYear: details.amount,
+            paidAmount: details.paid_amount
           };
         });
 

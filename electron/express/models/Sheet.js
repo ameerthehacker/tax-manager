@@ -16,7 +16,6 @@ module.exports = {
   getSheet: (db, id) => {
     let previousBalanceSheet = {};
     let currentBalanceSheet = {};
-    let totalToPaySheet = {};
     let availableTaxes = [];
     let availableHouses = [];
 
@@ -53,23 +52,6 @@ module.exports = {
       });
     };
 
-    // Total balance to be paid this year
-    const totalToPay = () => {
-      return new Promise((resolve, reject) => {
-        db.all(
-          `SELECT h.owner_name, t.tax, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year <= (SELECT to_year FROM sheets WHERE id=?) group by p.tax_id, p.house_id`,
-          [id],
-          (err, sheet) => {
-            if (!err) {
-              resolve(sheet);
-            } else {
-              reject(err);
-            }
-          }
-        );
-      });
-    };
-
     return previousBalance()
       .then(result => {
         previousBalanceSheet = result;
@@ -77,10 +59,6 @@ module.exports = {
       })
       .then(result => {
         currentBalanceSheet = result;
-        return totalToPay();
-      })
-      .then(result => {
-        totalToPaySheet = result;
         return Tax.getTaxes(db);
       })
       .then(result => {
@@ -92,7 +70,6 @@ module.exports = {
         return {
           previousBalanceSheet: previousBalanceSheet,
           currentBalanceSheet: currentBalanceSheet,
-          totalToPaySheet: totalToPaySheet,
           availableTaxes: availableTaxes,
           availableHouses: availableHouses
         };

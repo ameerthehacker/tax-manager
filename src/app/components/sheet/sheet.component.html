@@ -50,7 +50,7 @@
               -
             </td>
             <td>
-              {{ (sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + (sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
+              {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
               || 0) }}
             </td>
             <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
@@ -68,8 +68,8 @@
               -
             </td>
             <td>
-              {{ (sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + (sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
-              || 0) - (sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount || 0) }}
+              {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
+              || 0) - parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount || 0) }}
             </td>
           </ng-container>
           <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">

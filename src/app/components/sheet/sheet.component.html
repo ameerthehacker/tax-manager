@@ -76,10 +76,20 @@
           </ng-container>
           <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">
             <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
+            <td>
+              -
+              <a (click)="onCurrentYearAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id)" href="#">
+                <i class="fa fa-1x fa-pencil"></i>
+              </a>
+            </td>
+            <td>0</td>
+            <td>
+              -
+              <a (click)="onPaidAmountAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id)" href="#">
+                <i class="fa fa-1x fa-pencil"></i>
+              </a>
+            </td>
+            <td>0</td>
           </ng-container>
         </ng-container>
       </tr>

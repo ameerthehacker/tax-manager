@@ -171,4 +171,68 @@ export class SheetComponent implements OnInit {
         });
     }
   }
+  onCurrentYearAddClick(evt, sheetId, houseId, taxId) {
+    evt.preventDefault();
+    const tax = this.sheetDetails.availableTaxes.find(
+      availableTax => availableTax.id == taxId
+    );
+
+    this.authService
+      .post(`sheets/${this.sheetDetails.id}/taxes/new`, {
+        houseId: houseId,
+        taxId: taxId
+      })
+      .then(result => {
+        if (!result.error) {
+          this.sheetDetails.balanceSheet[houseId].taxes[
+            taxId
+          ] = this.initializeTax(tax);
+          this.sheetDetails.balanceSheet[houseId].taxes[
+            taxId
+          ].currentYearEditable = true;
+        } else {
+          this.flashServie.showFlashMessage({
+            type: "danger",
+            dismissible: true,
+            messages: ["Error updating the amount"]
+          });
+        }
+      });
+  }
+  onPaidAmountAddClick(evt, sheetId, houseId, taxId) {
+    evt.preventDefault();
+    const tax = this.sheetDetails.availableTaxes.find(
+      availableTax => availableTax.id == taxId
+    );
+
+    this.authService
+      .post(`sheets/${this.sheetDetails.id}/taxes/new`, {
+        houseId: houseId,
+        taxId: taxId
+      })
+      .then(result => {
+        if (!result.error) {
+          this.sheetDetails.balanceSheet[houseId].taxes[
+            taxId
+          ] = this.initializeTax(tax);
+          this.sheetDetails.balanceSheet[houseId].taxes[
+            taxId
+          ].paidAmountEditable = true;
+        } else {
+          this.flashServie.showFlashMessage({
+            type: "danger",
+            dismissible: true,
+            messages: ["Error updating the amount"]
+          });
+        }
+      });
+  }
+  private initializeTax(tax) {
+    return {
+      name: tax.name,
+      previousYear: null,
+      currentYear: null,
+      paidAmount: null
+    };
+  }
 }

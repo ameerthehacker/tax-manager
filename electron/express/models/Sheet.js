@@ -104,5 +104,20 @@ module.exports = {
           availableHouses: availableHouses
         };
       });
+  },
+  addTax: (db, sheetId, houseId, taxId) => {
+    return new Promise((resolve, reject) => {
+      db.run(
+        "INSERT INTO payments (sheet_id, house_id, tax_id) VALUES(?, ?, ?)",
+        [sheetId, houseId, taxId],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
+        }
+      );
+    });
   }
 };

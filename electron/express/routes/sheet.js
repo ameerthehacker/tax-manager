@@ -33,6 +33,7 @@ router.put("/amount/:id", (req, res) => {
   const houseId = req.body.houseId;
   const taxId = req.body.taxId;
   const amount = req.body.amount;
+
   Sheet.updateAmount(db, id, houseId, taxId, amount)
     .then(result => {
       res.json({ err: false });
@@ -48,12 +49,28 @@ router.put("/paid/:id", (req, res) => {
   const houseId = req.body.houseId;
   const taxId = req.body.taxId;
   const amount = req.body.amount;
+
   Sheet.updatePaid(db, id, houseId, taxId, amount)
     .then(result => {
       res.json({ err: false });
     })
     .catch(err => {
       res.json({ err: err });
+    });
+});
+
+router.post("/:id/taxes/new", (req, res) => {
+  const db = req.app.get("db");
+  const id = req.params.id;
+  const houseId = req.body.houseId;
+  const taxId = req.body.taxId;
+
+  Sheet.addTax(db, id, houseId, taxId)
+    .then(result => {
+      res.json({ error: false, result: result });
+    })
+    .catch(err => {
+      res.json({ error: err });
     });
 });
 

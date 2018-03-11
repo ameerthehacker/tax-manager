@@ -119,5 +119,20 @@ module.exports = {
         }
       );
     });
+  },
+  addSheet: (db, fromYear, toYear) => {
+    return new Promise((resolve, reject) => {
+      db.run(
+        "INSERT INTO sheets (from_year, to_year) VALUES(?, ?)",
+        [fromYear, toYear],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
+        }
+      );
+    });
   }
 };

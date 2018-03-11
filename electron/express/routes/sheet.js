@@ -74,4 +74,18 @@ router.post("/:id/taxes/new", (req, res) => {
     });
 });
 
+router.post("/", (req, res) => {
+  const db = req.app.get("db");
+  const fromYear = req.body.fromYear;
+  const toYear = req.body.toYear;
+
+  Sheet.addSheet(db, fromYear, toYear)
+    .then(result => {
+      res.json({ error: false, result: result });
+    })
+    .catch(err => {
+      res.json({ error: err });
+    });
+});
+
 module.exports = router;

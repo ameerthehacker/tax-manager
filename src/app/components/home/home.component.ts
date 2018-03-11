@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
+import { NgFlashMessageService } from "ng-flash-messages";
+
+declare var $: any;
 
 @Component({
   selector: "tm-home",
@@ -10,8 +14,12 @@ import { AuthService } from "../../services/auth/auth.service";
 export class HomeComponent implements OnInit {
   sheets: Array<any> = [];
   sheetDetails = {};
+  frmSheetDetails: FormGroup;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private flash: NgFlashMessageService
+  ) {}
 
   ngOnInit() {
     this.auth.get("sheets").then(result => {
@@ -22,6 +30,10 @@ export class HomeComponent implements OnInit {
           this.loadSheet(this.sheets[this.sheets.length - 1].id);
         }
       }
+    });
+    this.frmSheetDetails = new FormGroup({
+      fromYear: new FormControl("", Validators.required),
+      toYear: new FormControl("", Validators.required)
     });
   }
 
@@ -73,5 +85,33 @@ export class HomeComponent implements OnInit {
         this.sheetDetails = sheet;
       }
     });
+  }
+  get toYear() {
+    return this.frmSheetDetails.get("toYear");
+  }
+  get fromYear() {
+    return this.frmSheetDetails.get("fromYear");
+  }
+  onBtnNewSheetClick(evt) {
+    evt.preventDefault();
+    $("#modal-sheet-details").modal("show");
+  }
+  onBtnSaveSheetClick(evt) {
+    this.auth
+      .post("sheets", {
+        fromYear: this.fromYear.value,
+        toYear: this.toYear.value
+      })
+      .then(result => {
+        $("#modal-sheet-details").modal("hide");
+      })
+      .catch(err => {
+        $("#modal-sheet-details").modal("hide");
+        this.flash.showFlashMessage({
+          type: "danger",
+          dismissible: true,
+          messages: ["Error creating the sheet"]
+        });
+      });
   }
 }

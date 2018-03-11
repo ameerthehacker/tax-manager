@@ -25,3 +25,40 @@
     </div>
   </div>
 </div>
+
+<!-- Modal for sheet details -->
+<div id="modal-sheet-details" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Sheet Details</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="frmSheetDetails" action="">
+          <div class="form-group">
+            <label for="from">From</label>
+            <input id="from" class="form-control" type="text" formControlName="fromYear" placeholder="From Year">
+            <div class="error-field" *ngIf="fromYear.invalid && fromYear.touched">
+              This field is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="to">To</label>
+            <input id="to" class="form-control" type="text" formControlName="toYear" placeholder="To Year">
+            <div class="error-field" *ngIf="toYear.invalid && toYear.touched">
+              This field is required
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="onBtnSaveSheetClick($event)" [disabled]="frmSheetDetails.invalid">
+          <i class="fa fa-floppy-o"></i>&nbsp; Save
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

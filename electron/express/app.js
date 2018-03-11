@@ -11,7 +11,7 @@ const cors = require("cors");
 // Routes for the app
 const auth = require("./routes/auth");
 const houses = require("./routes/houses");
-const sheets = require("./routes/sheet");
+const sheets = require("./routes/sheets");
 const taxes = require("./routes/taxes");
 
 const sqlite = require("sqlite3").verbose();

@@ -9,5 +9,16 @@ module.exports = {
         }
       });
     });
+  },
+  addTax: (db, taxName) => {
+    return new Promise((resolve, reject) => {
+      db.run("INSERT INTO taxes (tax) VALUES (?)", [taxName], (err, result) => {
+        if (!err) {
+          resolve(result);
+        } else {
+          reject(err);
+        }
+      });
+    });
   }
 };

@@ -13,8 +13,7 @@
         </button>
         <div class="dropdown-menu">
           <a class="dropdown-item" data-toggle="modal" data-target="#modal-sheet-details" href="#">Sheet</a>
-          <a class="dropdown-item" href="#">House</a>
-          <a class="dropdown-item" href="#">Tax</a>
+          <a class="dropdown-item" data-toggle="modal" data-target="#modal-tax-details" href="#">Tax</a>
         </div>
       </div>
     </div>
@@ -53,6 +52,36 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-success" (click)="onBtnSaveSheetClick($event)" [disabled]="frmSheetDetails.invalid">
+          <i class="fa fa-floppy-o"></i>&nbsp; Save
+        </button>
+        <button class="btn btn-danger" data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for tax details -->
+<div id="modal-tax-details" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Tax Details</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="frmTaxDetails" action="">
+          <div class="form-group">
+            <label for="tax-name">Tax Name</label>
+            <input id="tax-name" class="form-control" type="text" formControlName="taxName" placeholder="Name of the tax">
+            <div class="error-field" *ngIf="taxName.invalid && taxName.touched">
+              This field is required
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="onBtnSaveTaxClick($event)" [disabled]="frmTaxDetails.invalid">
           <i class="fa fa-floppy-o"></i>&nbsp; Save
         </button>
         <button class="btn btn-danger" data-dismiss="modal">

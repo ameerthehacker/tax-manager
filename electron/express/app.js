@@ -12,6 +12,8 @@ const cors = require("cors");
 const auth = require("./routes/auth");
 const houses = require("./routes/houses");
 const sheets = require("./routes/sheet");
+const taxes = require("./routes/taxes");
+
 const sqlite = require("sqlite3").verbose();
 // Models
 const User = require("./models/User");
@@ -63,6 +65,7 @@ module.exports = app;
 app.use("/auth", auth);
 app.use("/houses", passport.authenticate("jwt", { session: false }), houses);
 app.use("/sheets", passport.authenticate("jwt", { session: false }), sheets);
+app.use("/taxes", passport.authenticate("jwt", { session: false }), taxes);
 
 // Set the database object
 app.set("db", db);

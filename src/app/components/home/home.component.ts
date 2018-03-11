@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   sheets: Array<any> = [];
   sheetDetails = {};
   frmSheetDetails: FormGroup;
+  frmTaxDetails: FormGroup;
 
   constructor(
     private auth: AuthService,
@@ -34,6 +35,9 @@ export class HomeComponent implements OnInit {
     this.frmSheetDetails = new FormGroup({
       fromYear: new FormControl("", Validators.required),
       toYear: new FormControl("", Validators.required)
+    });
+    this.frmTaxDetails = new FormGroup({
+      taxName: new FormControl("", Validators.required)
     });
   }
 
@@ -92,6 +96,9 @@ export class HomeComponent implements OnInit {
   get fromYear() {
     return this.frmSheetDetails.get("fromYear");
   }
+  get taxName() {
+    return this.frmTaxDetails.get("taxName");
+  }
   onBtnSaveSheetClick(evt) {
     this.auth
       .post("sheets", {
@@ -107,6 +114,23 @@ export class HomeComponent implements OnInit {
           type: "danger",
           dismissible: true,
           messages: ["Error creating the sheet"]
+        });
+      });
+  }
+  onBtnSaveTaxClick(evt) {
+    this.auth
+      .post("taxes", { taxName: this.taxName.value })
+      .then(result => {
+        if (!result.err) {
+          $("#modal-tax-details").modal("hide");
+        }
+      })
+      .catch(err => {
+        $("#modal-tax-details").modal("hide");
+        this.flash.showFlashMessage({
+          type: "danger",
+          dismissible: true,
+          messages: ["Error creating the tax"]
         });
       });
   }

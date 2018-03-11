@@ -92,10 +92,6 @@ export class HomeComponent implements OnInit {
   get fromYear() {
     return this.frmSheetDetails.get("fromYear");
   }
-  onBtnNewSheetClick(evt) {
-    evt.preventDefault();
-    $("#modal-sheet-details").modal("show");
-  }
   onBtnSaveSheetClick(evt) {
     this.auth
       .post("sheets", {

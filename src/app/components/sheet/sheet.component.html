@@ -52,19 +52,22 @@
               {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
               || 0) }}
             </td>
-            <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
-              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable">
-                {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount }} &nbsp;
-                <a (click)="onPaidAmountEditClick($event, availableHouse.id, availableTax.id)" href="#">
-                  <i class="fa fa-1x fa-pencil"></i>
-                </a>
+            <td>
+              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
+                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable">
+                  {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount }} &nbsp;
+                </ng-container>
               </ng-container>
+              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount && !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable">
+                -
+              </ng-container>
+              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable" (click)="onPaidAmountEditClick($event, availableHouse.id, availableTax.id)"
+                href="#">
+                <i class="fa fa-1x fa-pencil"></i>
+              </a>
               <input type="text" (blur)="onPaidAmountBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)" (keypress)="onPaidAmountKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id)"
                 class="form-control" *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable"
                 [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
-            </td>
-            <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
-              -
             </td>
             <td>
               {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear

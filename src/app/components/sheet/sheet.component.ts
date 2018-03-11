@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
+
+declare var $: any;
+
 @Component({
   selector: "tm-sheet",
   templateUrl: "./sheet.component.html",
@@ -9,11 +13,21 @@ import { AuthService } from "../../services/auth/auth.service";
 export class SheetComponent implements OnInit {
   @Input() sheetDetails: any;
   editable = {};
+  frmHouseDetails: FormGroup;
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.frmHouseDetails = new FormGroup({
+      ownerName: new FormControl("", Validators.required),
+      houseNumber: new FormControl("", Validators.required)
+    });
+  }
 
+  onHouseDetailsEditClick(evt) {
+    evt.preventDefault();
+    $("#modal-house-details").modal("show");
+  }
   parseInt(str) {
     return new Number(str);
   }
@@ -91,5 +105,12 @@ export class SheetComponent implements OnInit {
       .catch(err => {
         console.log(err);
       });
+  }
+  // Getters for form house details
+  get ownerName() {
+    return this.frmHouseDetails.get("ownerName");
+  }
+  get houseNumber() {
+    return this.frmHouseDetails.get("houseNumber");
   }
 }

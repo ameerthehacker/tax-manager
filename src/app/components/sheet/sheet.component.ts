@@ -19,8 +19,8 @@ export class SheetComponent implements OnInit {
   frmHouseDetailsAction = { operation: "", houseId: "" };
 
   constructor(
-    private authService: AuthService,
-    private flashServie: NgFlashMessageService
+    private auth: AuthService,
+    private flash: NgFlashMessageService
   ) {}
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class SheetComponent implements OnInit {
     evt.preventDefault();
     const houseId = evt.target.getAttribute("data-house-id");
     // Get the house details to poulate in the form
-    this.authService.get(`houses/${houseId}`).then(result => {
+    this.auth.get(`houses/${houseId}`).then(result => {
       if (!result.error) {
         this.ownerName.setValue(result.house.owner_name);
         this.houseNumber.setValue(result.house.house_number);
@@ -44,7 +44,7 @@ export class SheetComponent implements OnInit {
         // Show the modal
         $("#modal-house-details").modal("show");
       } else {
-        this.flashServie.showFlashMessage({
+        this.flash.showFlashMessage({
           type: "danger",
           dismissible: true,
           messages: ["Error getting the house details"]
@@ -99,7 +99,7 @@ export class SheetComponent implements OnInit {
     ].paidAmountEditable = editable;
   }
   updateCurrentYearAmount(sheetId, houseId, taxId, amount) {
-    this.authService
+    this.auth
       .put(`sheets/amount/${sheetId}`, {
         houseId: houseId,
         taxId: taxId,
@@ -111,7 +111,7 @@ export class SheetComponent implements OnInit {
         ].currentYear = amount;
       })
       .catch(err => {
-        this.flashServie.showFlashMessage({
+        this.flash.showFlashMessage({
           type: "danger",
           dismissible: true,
           messages: ["Error updating the amount"]
@@ -119,7 +119,7 @@ export class SheetComponent implements OnInit {
       });
   }
   updatePaidAmount(sheetId, houseId, taxId, amount) {
-    this.authService
+    this.auth
       .put(`sheets/paid/${sheetId}`, {
         houseId: houseId,
         taxId: taxId,
@@ -131,7 +131,7 @@ export class SheetComponent implements OnInit {
         ].paidAmount = amount;
       })
       .catch(err => {
-        this.flashServie.showFlashMessage({
+        this.flash.showFlashMessage({
           type: "danger",
           dismissible: true,
           messages: ["Error updating the amount"]
@@ -151,11 +151,11 @@ export class SheetComponent implements OnInit {
         owner_name: this.ownerName.value,
         house_number: this.houseNumber.value
       };
-      this.authService
+      this.auth
         .put(`houses/${this.frmHouseDetailsAction.houseId}`, params)
         .then(result => {
           if (result.error) {
-            this.flashServie.showFlashMessage({
+            this.flash.showFlashMessage({
               type: "danger",
               dismissible: true,
               messages: ["Error updating house details"]
@@ -177,7 +177,7 @@ export class SheetComponent implements OnInit {
       availableTax => availableTax.id == taxId
     );
 
-    this.authService
+    this.auth
       .post(`sheets/${this.sheetDetails.id}/taxes/new`, {
         houseId: houseId,
         taxId: taxId
@@ -191,7 +191,7 @@ export class SheetComponent implements OnInit {
             taxId
           ].currentYearEditable = true;
         } else {
-          this.flashServie.showFlashMessage({
+          this.flash.showFlashMessage({
             type: "danger",
             dismissible: true,
             messages: ["Error updating the amount"]
@@ -205,7 +205,7 @@ export class SheetComponent implements OnInit {
       availableTax => availableTax.id == taxId
     );
 
-    this.authService
+    this.auth
       .post(`sheets/${this.sheetDetails.id}/taxes/new`, {
         houseId: houseId,
         taxId: taxId
@@ -219,7 +219,7 @@ export class SheetComponent implements OnInit {
             taxId
           ].paidAmountEditable = true;
         } else {
-          this.flashServie.showFlashMessage({
+          this.flash.showFlashMessage({
             type: "danger",
             dismissible: true,
             messages: ["Error updating the amount"]

@@ -19,7 +19,7 @@
         <td>
           {{ availableHouse.owner_name }} &nbsp;
           <a href="#" (click)="onHouseDetailsEditClick($event)">
-            <i class="fa fa-pencil"></i>
+            <i [attr.data-house-id]="availableHouse.id" class="fa fa-pencil"></i>
           </a>
         </td>
         <!-- List the tax and the amount paid -->
@@ -108,7 +108,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success">
+        <button (click)="onBtnSaveClick($event)" [disabled]="frmHouseDetails.invalid" class="btn btn-success">
           <i class="fa fa-floppy-o"></i>&nbsp;Save</button>
         <button data-dismiss="modal" class="btn btn-danger">Cancel</button>
       </div>

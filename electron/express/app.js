@@ -88,7 +88,7 @@ function createSchema() {
     );
     // Houses table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS houses (id INT AUTO_INCREMENT PRIMARY_KEY, owner_name STRING)`
+      `CREATE TABLE IF NOT EXISTS houses (id INT AUTO_INCREMENT PRIMARY_KEY, owner_name STRING, house_number STRING)`
     );
     // Payments table creation
     db.run(

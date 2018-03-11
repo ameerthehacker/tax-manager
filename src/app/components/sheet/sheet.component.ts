@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
+import { NgFlashMessageService } from "ng-flash-messages";
 
 declare var $: any;
 
@@ -14,8 +15,13 @@ export class SheetComponent implements OnInit {
   @Input() sheetDetails: any;
   editable = {};
   frmHouseDetails: FormGroup;
+  // To check whether the form is used for insertion or updation
+  frmHouseDetailsAction = { operation: "", houseId: "" };
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private flashServie: NgFlashMessageService
+  ) {}
 
   ngOnInit() {
     this.frmHouseDetails = new FormGroup({
@@ -26,7 +32,25 @@ export class SheetComponent implements OnInit {
 
   onHouseDetailsEditClick(evt) {
     evt.preventDefault();
-    $("#modal-house-details").modal("show");
+    const houseId = evt.target.getAttribute("data-house-id");
+    // Get the house details to poulate in the form
+    this.authService.get(`houses/${houseId}`).then(result => {
+      if (!result.error) {
+        this.ownerName.setValue(result.house.owner_name);
+        this.houseNumber.setValue(result.house.house_number);
+        // Update the formAction
+        this.frmHouseDetailsAction.operation = "update";
+        this.frmHouseDetailsAction.houseId = houseId;
+        // Show the modal
+        $("#modal-house-details").modal("show");
+      } else {
+        this.flashServie.showFlashMessage({
+          type: "danger",
+          dismissible: true,
+          messages: ["Error getting the house details"]
+        });
+      }
+    });
   }
   parseInt(str) {
     return new Number(str);
@@ -87,7 +111,11 @@ export class SheetComponent implements OnInit {
         ].currentYear = amount;
       })
       .catch(err => {
-        console.log(err);
+        this.flashServie.showFlashMessage({
+          type: "danger",
+          dismissible: true,
+          messages: ["Error updating the amount"]
+        });
       });
   }
   updatePaidAmount(sheetId, houseId, taxId, amount) {
@@ -103,7 +131,11 @@ export class SheetComponent implements OnInit {
         ].paidAmount = amount;
       })
       .catch(err => {
-        console.log(err);
+        this.flashServie.showFlashMessage({
+          type: "danger",
+          dismissible: true,
+          messages: ["Error updating the amount"]
+        });
       });
   }
   // Getters for form house details
@@ -112,5 +144,31 @@ export class SheetComponent implements OnInit {
   }
   get houseNumber() {
     return this.frmHouseDetails.get("houseNumber");
+  }
+  onBtnSaveClick(evt) {
+    if (this.frmHouseDetailsAction.operation == "update") {
+      const params = {
+        owner_name: this.ownerName.value,
+        house_number: this.houseNumber.value
+      };
+      this.authService
+        .put(`houses/${this.frmHouseDetailsAction.houseId}`, params)
+        .then(result => {
+          if (result.error) {
+            this.flashServie.showFlashMessage({
+              type: "danger",
+              dismissible: true,
+              messages: ["Error updating house details"]
+            });
+          } else {
+            const updatedHouse = this.sheetDetails.availableHouses.find(
+              availableHouse =>
+                availableHouse.id == this.frmHouseDetailsAction.houseId
+            );
+            updatedHouse.owner_name = params.owner_name;
+            $("#modal-house-details").modal("hide");
+          }
+        });
+    }
   }
 }

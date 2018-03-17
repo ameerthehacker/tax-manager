@@ -1,7 +1,11 @@
 const { app, BrowserWindow } = require("electron");
+const electron = require("electron");
 
 const path = require("path");
 const url = require("url");
+const fs = require("fs");
+const os = require("os");
+const shell = electron.shell;
 
 // Parse environment variables
 if (require("dotenv").config().error) {
@@ -53,6 +57,20 @@ app.on("ready", () => {
   const expressApp = require("./express/app");
   expressApp.on("listening", () => {
     createWindow();
+  });
+  expressApp.on("print", event => {
+    const pdfPath = path.join(os.tmpdir(), "print.pdf");
+    const win = BrowserWindow.getAllWindows()[0];
+    // Use default printing options
+    win.webContents.printToPDF({}, function(error, data) {
+      if (error) throw error;
+      fs.writeFile(pdfPath, data, function(error) {
+        if (error) {
+          throw error;
+        }
+        shell.openExternal("file://" + pdfPath);
+      });
+    });
   });
 });
 

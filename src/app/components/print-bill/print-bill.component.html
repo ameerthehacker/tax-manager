@@ -4,7 +4,7 @@
       Gram Panchayat
     </div>
     <div class="col-sm-4 bottom-border">
-      Sammatipuram
+      {{ panchayatName }}
     </div>
   </div>
   <div class="row">
@@ -12,7 +12,7 @@
       Receipt
     </div>
     <div class="col-sm-4 bottom-border">
-      12345
+      {{ receiptNumber }}
     </div>
   </div>
   <div class="row">
@@ -20,7 +20,7 @@
       Mr. / Mrs.
     </div>
     <div class="col-sm-4 bottom-border">
-      Ameer Jhan
+      {{ billDetails.house.owner_name }}
     </div>
   </div>
   <div class="row">
@@ -28,7 +28,7 @@
       Total
     </div>
     <div class="col-sm-2 bottom-border">
-      2913
+      {{ totalAmount }}
     </div>
   </div>
   <div class="row">
@@ -40,12 +40,30 @@
           <th>Current</th>
           <th>Total</th>
         </tr>
-        <tr>
-          <td>Water</td>
-          <td>120</td>
-          <td>100</td>
-          <td>300</td>
-        </tr>
+        <ng-container *ngFor="let availableTax of availableTaxes">
+          <tr *ngIf="billDetails[availableTax.id]">
+            <td>{{ availableTax.tax }}</td>
+            <td>
+              <ng-container *ngIf="billDetails[availableTax.id].balance">
+                {{ billDetails[availableTax.id].balance }}
+              </ng-container>
+              <ng-container *ngIf="!billDetails[availableTax.id].balance">
+                -
+              </ng-container>
+            </td>
+            <td>
+              <ng-container *ngIf="billDetails[availableTax.id].currentAmount">
+                {{ billDetails[availableTax.id].currentAmount }}
+              </ng-container>
+              <ng-container *ngIf="!billDetails[availableTax.id].currentAmount">
+                -
+              </ng-container>
+            </td>
+            <td>
+              {{ parseInt(billDetails[availableTax.id].balance || 0) + parseInt(billDetails[availableTax.id].currentAmount || 0) }}
+            </td>
+          </tr>
+        </ng-container>
       </table>
     </div>
   </div>
@@ -54,7 +72,7 @@
       Date
     </div>
     <div class="col-sm-2 bottom-border">
-      18/1/2017
+      {{ todayDate }}
     </div>
   </div>
 </div>

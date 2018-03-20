@@ -134,5 +134,67 @@ module.exports = {
         }
       );
     });
+  },
+  getBill: (db, sheetId, houseId) => {
+    let previousBalanceSheet = {};
+    let currentBalanceSheet = {};
+    let availableTaxes = [];
+    let house = {};
+
+    // Previous year balances
+    const previousBalance = () => {
+      return new Promise((resolve, reject) => {
+        db.all(
+          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) AND h.id=? group by p.tax_id, p.house_id`,
+          [sheetId, houseId],
+          (err, sheet) => {
+            if (!err) {
+              resolve(sheet);
+            } else {
+              reject(err);
+            }
+          }
+        );
+      });
+    };
+    // Current year amount to be paid
+    const currentBalance = () => {
+      return new Promise((resolve, reject) => {
+        db.all(
+          `SELECT h.id as house_id, h.owner_name, t.id as tax_id, t.tax, p.paid_amount, p.amount FROM houses h INNER JOIN taxes t INNER JOIN payments p on t.id = p.tax_id AND p.house_id = h.id AND p.sheet_id=? WHERE h.id=?`,
+          [sheetId, houseId],
+          (err, sheet) => {
+            if (!err) {
+              resolve(sheet);
+            } else {
+              reject(err);
+            }
+          }
+        );
+      });
+    };
+
+    return previousBalance()
+      .then(result => {
+        previousBalanceSheet = result;
+        return currentBalance();
+      })
+      .then(result => {
+        currentBalanceSheet = result;
+        return Tax.getTaxes(db);
+      })
+      .then(result => {
+        availableTaxes = result;
+        return House.getHouse(db, houseId);
+      })
+      .then(result => {
+        house = result;
+        return {
+          previousBalanceSheet: previousBalanceSheet,
+          currentBalanceSheet: currentBalanceSheet,
+          availableTaxes: availableTaxes,
+          house: house
+        };
+      });
   }
 };

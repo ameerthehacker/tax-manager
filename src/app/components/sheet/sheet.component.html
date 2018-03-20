@@ -21,6 +21,9 @@
           <a href="#" (click)="onHouseDetailsEditClick($event)">
             <i [attr.data-house-id]="availableHouse.id" class="fa fa-pencil"></i>
           </a>
+          <a [routerLink]="['/print-bill']" [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id }">
+            <i class="fa fa-print"></i>
+          </a>
         </td>
         <!-- List the tax and the amount paid -->
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">

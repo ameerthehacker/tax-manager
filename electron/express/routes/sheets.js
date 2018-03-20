@@ -88,10 +88,28 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/print", (req, res) => {
+router.post("/print-bill", (req, res) => {
   // Print the current page
   req.app.emit("print");
   res.json({ error: false });
+});
+router.post("/get-bill", (req, res) => {
+  const db = req.app.get("db");
+  const sheetId = req.body.sheetId;
+  const houseId = req.body.houseId;
+  let result = {};
+
+  Sheet.getBill(db, sheetId, houseId)
+    .then(billDetails => {
+      res.json({
+        error: false,
+        billDetails: billDetails,
+        panchayatName: process.env.panchayatName
+      });
+    })
+    .catch(err => {
+      res.json({ error: err });
+    });
 });
 
 module.exports = router;

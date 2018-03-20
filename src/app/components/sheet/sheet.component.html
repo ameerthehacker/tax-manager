@@ -2,17 +2,17 @@
   <div class="col-sm-12">
     <table class="table table-bordered table-responsive">
       <tr>
-        <th>OwnerName</th>
+        <th>{{ 'OWNER_NAME' | translate }}</th>
         <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} Tax</th>
       </tr>
       <tr>
         <th>-</th>
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
-          <th>Previous</th>
-          <th>Current</th>
-          <th>Total</th>
-          <th>Paid Amount</th>
-          <th>Balance</th>
+          <th>{{ 'PREVIOUS' | translate }}</th>
+          <th>{{ 'CURRENT' | translate }}</th>
+          <th>{{ 'TOTAL' | translate }}</th>
+          <th>{{ 'PAID_AMOUNT' | translate }}</th>
+          <th>{{ 'BALANCE' | translate }}</th>
         </ng-container>
       </tr>
       <tr *ngFor="let availableHouse of sheetDetails.availableHouses">

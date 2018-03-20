@@ -1,10 +1,10 @@
 <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
-  <a [routerLink]="['/']" class="navbar-brand">Tax Manager</a>
+  <a [routerLink]="['/']" class="navbar-brand">{{ 'APP_NAME' | translate }}</a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
       <li class="navbar-item">
-        <a class="nav-link" [routerLink]="['/login']" *ngIf="!auth.isLoggedIn()">Login</a>
-        <a class="nav-link" href="#" (click)="onBtnLogoutClick($event)" *ngIf="auth.isLoggedIn()">Logout</a>
+        <a class="nav-link" [routerLink]="['/login']" *ngIf="!auth.isLoggedIn()">{{ 'LOGIN' | translate }}</a>
+        <a class="nav-link" href="#" (click)="onBtnLogoutClick($event)" *ngIf="auth.isLoggedIn()">{{ 'LOGOUT' | translate }}</a>
       </li>
     </ul>
   </div>

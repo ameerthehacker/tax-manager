@@ -28,8 +28,15 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12" *ngIf="!sheetLoading">
       <tm-sheet [sheetDetails]="sheetDetails"></tm-sheet>
+    </div>
+    <div class="col-sm-12 offset-md-3 col-md-6 margin-top-60" *ngIf="sheetLoading">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%">
+          Loading...
+        </div>
+      </div>
     </div>
   </div>
 </div>

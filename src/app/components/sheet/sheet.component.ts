@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: "./sheet.component.html",
   styleUrls: ["./sheet.component.scss"]
 })
-export class SheetComponent implements OnInit, OnDestroy {
+export class SheetComponent implements OnInit {
   @Input() sheetDetails: any;
   editable = {};
   frmHouseDetails: FormGroup;
@@ -34,9 +34,6 @@ export class SheetComponent implements OnInit, OnDestroy {
       this.frmHouseDetailsAction.operation = "insert";
       $("#modal-house-details").modal("show");
     });
-  }
-  ngOnDestroy() {
-    this.messaging.destroy();
   }
 
   onHouseDetailsEditClick(evt) {

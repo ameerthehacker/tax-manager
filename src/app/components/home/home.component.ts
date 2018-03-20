@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
@@ -12,11 +12,12 @@ declare var $: any;
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   sheets: Array<any> = [];
   sheetDetails: any = {};
   frmSheetDetails: FormGroup;
   frmTaxDetails: FormGroup;
+  sheetLoading: boolean = true;
 
   constructor(
     private auth: AuthService,
@@ -47,9 +48,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnDestroy() {
-    this.messaging.destroy();
-  }
 
   onSelectedSheetChange(evt) {
     if (evt.target.selectedIndex != -1) {
@@ -67,9 +65,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       url = `sheets/${id}`;
     }
-
+    this.sheetLoading = true;
     this.auth.get(url).then(result => {
       if (!result.error) {
+        this.sheetLoading = false;
         sheet.id = result.sheet.id;
         // Set the list of available taxes
         sheet.availableTaxes = result.sheet.availableTaxes;

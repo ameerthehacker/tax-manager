@@ -28,5 +28,6 @@ export const KA = {
   TO: "ಗೆ",
   YEAR: "ವರ್ಷ",
   HOUSE: "ಮನೆ",
-  NUMBER: "ಸಂಖ್ಯೆ"
+  NUMBER: "ಸಂಖ್ಯೆ",
+  SEARCH: "ಹುಡುಕು"
 };

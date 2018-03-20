@@ -9,7 +9,9 @@
     </ul>
   </div>
   <form class="form-inline mr-auto">
-    <select #languageSelector (change)="onLanguageChange($event)" class="form-control">
+    <input type="text" class="form-control mr-sm-2" placeholder="{{ 'SEARCH' | translate }} {{ 'HOUSE' | translate }}...">
+    <button class="btn btn-outline-success">{{ 'SEARCH' | translate }}</button>
+    <select #languageSelector (change)="onLanguageChange($event)" class="form-control margin-left-5">
       <option value="en">English</option>
       <option value="ka">Kanada</option>
     </select>

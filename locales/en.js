@@ -30,5 +30,6 @@ export const EN = {
   TO: "To",
   YEAR: "Year",
   HOUSE: "House",
-  NUMBER: "Number"
+  NUMBER: "Number",
+  SEARCH: "Search"
 };

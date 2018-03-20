@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
       .then(result => {
         $("#modal-sheet-details").modal("hide");
+        this.frmSheetDetails.reset();
       })
       .catch(err => {
         $("#modal-sheet-details").modal("hide");
@@ -128,6 +129,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .then(result => {
         if (!result.err) {
           $("#modal-tax-details").modal("hide");
+          this.frmTaxDetails.reset();
         }
       })
       .catch(err => {

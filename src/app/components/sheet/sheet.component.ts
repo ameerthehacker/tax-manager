@@ -177,6 +177,7 @@ export class SheetComponent implements OnInit, OnDestroy {
             );
             updatedHouse.owner_name = params.owner_name;
             $("#modal-house-details").modal("hide");
+            this.frmHouseDetails.reset();
           }
         });
     }
@@ -190,6 +191,7 @@ export class SheetComponent implements OnInit, OnDestroy {
           });
         } else {
           $("#modal-house-details").modal("hide");
+          this.frmHouseDetails.reset();
         }
       });
     }

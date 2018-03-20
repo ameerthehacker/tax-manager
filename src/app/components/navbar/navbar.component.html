@@ -8,4 +8,10 @@
       </li>
     </ul>
   </div>
+  <form class="form-inline mr-auto">
+    <select #languageSelector (change)="onLanguageChange($event)" class="form-control">
+      <option value="en">English</option>
+      <option value="ka">Kanada</option>
+    </select>
+  </form>
 </nav>

@@ -21,6 +21,7 @@
         </button>
         <div class="dropdown-menu">
           <a class="dropdown-item" data-toggle="modal" data-target="#modal-sheet-details" href="#">{{ 'SHEET' | translate }}</a>
+          <a class="dropdown-item" (click)="onBtnNewHouseClick($event)" data-toggle="modal" href="#">{{ 'HOUSE' | translate }}</a>
           <a class="dropdown-item" data-toggle="modal" data-target="#modal-tax-details" href="#">{{ 'TAX' | translate }}</a>
         </div>
       </div>

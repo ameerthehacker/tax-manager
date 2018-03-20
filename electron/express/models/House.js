@@ -39,5 +39,20 @@ module.exports = {
         }
       );
     });
+  },
+  insertHouse: (db, id, params) => {
+    return new Promise((resolve, reject) => {
+      db.run(
+        "INSERT INTO houses (owner_name, house_number) VALUES(?, ?)",
+        [params.owner_name, params.house_number, id],
+        (err, result) => {
+          if (!err) {
+            resolve(result);
+          } else {
+            reject(err);
+          }
+        }
+      );
+    });
   }
 };

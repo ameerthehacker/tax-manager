@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
 import { NgFlashMessageService } from "ng-flash-messages";
+import { MessagingService } from "../../services/messaging/messaging.service";
 
 declare var $: any;
 
@@ -11,7 +12,7 @@ declare var $: any;
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   sheets: Array<any> = [];
   sheetDetails = {};
   frmSheetDetails: FormGroup;
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private flash: NgFlashMessageService
+    private flash: NgFlashMessageService,
+    private messaging: MessagingService
   ) {}
 
   ngOnInit() {
@@ -39,6 +41,9 @@ export class HomeComponent implements OnInit {
     this.frmTaxDetails = new FormGroup({
       taxName: new FormControl("", Validators.required)
     });
+  }
+  ngOnDestroy() {
+    this.messaging.destroy();
   }
 
   onSelectedSheetChange(evt) {
@@ -133,5 +138,9 @@ export class HomeComponent implements OnInit {
           messages: ["Error creating the tax"]
         });
       });
+  }
+  onBtnNewHouseClick(evt) {
+    evt.preventDefault();
+    this.messaging.emit("new-house", "");
   }
 }

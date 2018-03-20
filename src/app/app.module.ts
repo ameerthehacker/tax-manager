@@ -8,6 +8,9 @@ import { TranslateModule } from "@ngx-translate/core";
 
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./components/login/login.component";
+import { PrintBillComponent } from "./components/print-bill/print-bill.component";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { SheetComponent } from "./components/sheet/sheet.component";
 
 // Routes for the app
 import { APP_ROUTES } from "./routes/app.route";
@@ -15,9 +18,7 @@ import { HomeComponent } from "./components/home/home.component";
 
 import { AuthService } from "./services/auth/auth.service";
 import { AuthGuard } from "./guards/auth/auth.guard";
-import { NavbarComponent } from "./components/navbar/navbar.component";
-import { SheetComponent } from "./components/sheet/sheet.component";
-import { PrintBillComponent } from "./components/print-bill/print-bill.component";
+import { MessagingService } from "./services/messaging/messaging.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { PrintBillComponent } from "./components/print-bill/print-bill.component
     NgFlashMessagesModule.forRoot(),
     TranslateModule.forRoot()
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, MessagingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

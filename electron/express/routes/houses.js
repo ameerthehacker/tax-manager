@@ -17,6 +17,22 @@ router.get("/:id", (req, res) => {
       res.json({ error: err });
     });
 });
+router.post("/", (req, res) => {
+  const db = req.app.get("db");
+  const houseId = req.params.id;
+  const params = {
+    owner_name: req.body.owner_name,
+    house_number: req.body.house_number
+  };
+
+  House.insertHouse(db, houseId, params)
+    .then(result => {
+      res.json({ error: false, result: result });
+    })
+    .catch(err => {
+      res.json({ error: err });
+    });
+});
 router.put("/:id", (req, res) => {
   const db = req.app.get("db");
   const houseId = req.params.id;

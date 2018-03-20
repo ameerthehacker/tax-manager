@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
 import { NgFlashMessageService } from "ng-flash-messages";
+import { MessagingService } from "../../services/messaging/messaging.service";
 
 declare var $: any;
 
@@ -11,7 +12,7 @@ declare var $: any;
   templateUrl: "./sheet.component.html",
   styleUrls: ["./sheet.component.scss"]
 })
-export class SheetComponent implements OnInit {
+export class SheetComponent implements OnInit, OnDestroy {
   @Input() sheetDetails: any;
   editable = {};
   frmHouseDetails: FormGroup;
@@ -20,7 +21,8 @@ export class SheetComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private flash: NgFlashMessageService
+    private flash: NgFlashMessageService,
+    private messaging: MessagingService
   ) {}
 
   ngOnInit() {
@@ -28,6 +30,13 @@ export class SheetComponent implements OnInit {
       ownerName: new FormControl("", Validators.required),
       houseNumber: new FormControl("", Validators.required)
     });
+    this.messaging.on("new-house", () => {
+      this.frmHouseDetailsAction.operation = "insert";
+      $("#modal-house-details").modal("show");
+    });
+  }
+  ngOnDestroy() {
+    this.messaging.destroy();
   }
 
   onHouseDetailsEditClick(evt) {
@@ -146,11 +155,12 @@ export class SheetComponent implements OnInit {
     return this.frmHouseDetails.get("houseNumber");
   }
   onBtnSaveClick(evt) {
+    const params = {
+      owner_name: this.ownerName.value,
+      house_number: this.houseNumber.value
+    };
+
     if (this.frmHouseDetailsAction.operation == "update") {
-      const params = {
-        owner_name: this.ownerName.value,
-        house_number: this.houseNumber.value
-      };
       this.auth
         .put(`houses/${this.frmHouseDetailsAction.houseId}`, params)
         .then(result => {
@@ -169,6 +179,19 @@ export class SheetComponent implements OnInit {
             $("#modal-house-details").modal("hide");
           }
         });
+    }
+    if (this.frmHouseDetailsAction.operation == "insert") {
+      this.auth.post(`houses`, params).then(result => {
+        if (result.error) {
+          this.flash.showFlashMessage({
+            type: "danger",
+            dismissible: true,
+            messages: ["Error inserting house details"]
+          });
+        } else {
+          $("#modal-house-details").modal("hide");
+        }
+      });
     }
   }
   onCurrentYearAddClick(evt, sheetId, houseId, taxId) {

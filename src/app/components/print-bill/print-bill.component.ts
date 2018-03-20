@@ -55,6 +55,10 @@ export class PrintBillComponent implements OnInit {
               this.billDetails[details.tax_id].currentAmount = details.amount;
               this.totalAmount += details.amount;
             });
+
+            this.auth.post("sheets/print-bill", {}).then(() => {
+              this.router.navigate(["/"]);
+            });
           });
       } else {
         // If any of the query param is missing go to home

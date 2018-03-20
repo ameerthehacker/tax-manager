@@ -38,32 +38,32 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Sheet Details</h4>
+        <h4 class="modal-title">{{ 'SHEET' | translate }} {{ 'DETAILS' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form [formGroup]="frmSheetDetails" action="">
           <div class="form-group">
-            <label for="from">From</label>
-            <input id="from" class="form-control" type="text" formControlName="fromYear" placeholder="From Year">
+            <label for="from">{{ 'FROM' | translate }}</label>
+            <input id="from" class="form-control" type="text" formControlName="fromYear" placeholder="{{ 'FROM' | translate }} {{ 'YEAR' | translate }}">
             <div class="error-field" *ngIf="fromYear.invalid && fromYear.touched">
-              {{  'ERRORS.REQUIRED' | translate }}
+              {{ 'ERRORS.REQUIRED' | translate }}
             </div>
           </div>
           <div class="form-group">
-            <label for="to">To</label>
-            <input id="to" class="form-control" type="text" formControlName="toYear" placeholder="To Year">
+            <label for="to">{{ 'TO' | translate }}</label>
+            <input id="to" class="form-control" type="text" formControlName="toYear" placeholder="{{ 'TO' | translate }} {{ 'YEAR' | translate }}">
             <div class="error-field" *ngIf="toYear.invalid && toYear.touched">
-              {{  'ERRORS.REQUIRED' | translate }}
+              {{ 'ERRORS.REQUIRED' | translate }}
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-success" (click)="onBtnSaveSheetClick($event)" [disabled]="frmSheetDetails.invalid">
-          <i class="fa fa-floppy-o"></i>&nbsp; Save
+          <i class="fa fa-floppy-o"></i>&nbsp; {{ 'SAVE' | translate }}
         </button>
         <button class="btn btn-danger" data-dismiss="modal">
-          Cancel
+          {{ 'CANCEL' | translate }}
         </button>
       </div>
     </div>
@@ -75,25 +75,25 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Tax Details</h4>
+        <h4 class="modal-title">{{ 'TAX' | translate }} {{ 'DETAILS' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form [formGroup]="frmTaxDetails" action="">
           <div class="form-group">
-            <label for="tax-name">Tax Name</label>
-            <input id="tax-name" class="form-control" type="text" formControlName="taxName" placeholder="Name of the tax">
+            <label for="tax-name">{{ 'TAX' | translate }} {{ 'NAME' | translate }}</label>
+            <input id="tax-name" class="form-control" type="text" formControlName="taxName" placeholder="{{ 'TAX' | translate }} {{ 'NAME' | translate }}">
             <div class="error-field" *ngIf="taxName.invalid && taxName.touched">
-              {{  'ERRORS.REQUIRED' | translate }}
+              {{ 'ERRORS.REQUIRED' | translate }}
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-success" (click)="onBtnSaveTaxClick($event)" [disabled]="frmTaxDetails.invalid">
-          <i class="fa fa-floppy-o"></i>&nbsp; Save
+          <i class="fa fa-floppy-o"></i>&nbsp; {{ 'SAVE' | translate }}
         </button>
         <button class="btn btn-danger" data-dismiss="modal">
-          Cancel
+          {{ 'CANCEL' | translate }}
         </button>
       </div>
     </div>

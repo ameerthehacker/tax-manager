@@ -18,5 +18,15 @@ export const KA = {
   MR: "ಶ್ರೀ",
   MRS: "ಶ್ರೀಮತಿ",
   DATE: "ದಿನಾಂಕ",
-  ERRORS: { REQUIRED: "ಈ ಜಾಗ ಬೇಕಾಗಿದೆ" }
+  ERRORS: { REQUIRED: "ಈ ಜಾಗ ಬೇಕಾಗಿದೆ" },
+  DETAILS: "ವಿವರಗಳು",
+  NAME: "ಹೆಸರು",
+  OWNER: "ಮಾಲೀಕ",
+  SAVE: "ಉಳಿಸಿ",
+  CANCEL: "ರದ್ದುಮಾಡಿ",
+  FROM: "ನಿಂದ",
+  TO: "ಗೆ",
+  YEAR: "ವರ್ಷ",
+  HOUSE: "ಮನೆ",
+  NUMBER: "ಸಂಖ್ಯೆ"
 };

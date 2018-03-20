@@ -20,5 +20,15 @@ export const EN = {
   DATE: "DATE",
   ERRORS: {
     REQUIRED: "This field is required"
-  }
+  },
+  DETAILS: "Details",
+  NAME: "Name",
+  OWNER: "Owner",
+  SAVE: "Save",
+  CANCEL: "Cancel",
+  FROM: "From",
+  TO: "To",
+  YEAR: "Year",
+  HOUSE: "House",
+  NUMBER: "Number"
 };

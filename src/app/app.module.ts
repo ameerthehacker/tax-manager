@@ -16,9 +16,10 @@ import { AuthService } from "./services/auth/auth.service";
 import { AuthGuard } from "./guards/auth/auth.guard";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SheetComponent } from './components/sheet/sheet.component';
+import { PrintBillComponent } from './components/print-bill/print-bill.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, NavbarComponent, SheetComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, NavbarComponent, SheetComponent, PrintBillComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot(APP_ROUTES),

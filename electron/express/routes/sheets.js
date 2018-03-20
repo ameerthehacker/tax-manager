@@ -88,4 +88,10 @@ router.post("/", (req, res) => {
     });
 });
 
+router.post("/print", (req, res) => {
+  // Print the current page
+  req.app.emit("print");
+  res.json({ error: false });
+});
+
 module.exports = router;

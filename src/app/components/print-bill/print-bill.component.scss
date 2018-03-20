@@ -1,0 +1,12 @@
+.bottom-border {
+  border: 0px !important;
+  border-bottom: 1px solid #000 !important;
+}
+
+.row + .row {
+  margin-top: 20px;
+}
+
+.header {
+  font-weight: bold;
+}

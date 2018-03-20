@@ -47,6 +47,9 @@ export class HomeComponent implements OnInit {
         this.loadSheet(this.sheetDetails.id, message);
       }
     });
+    this.messaging.on("reload-sheets", message => {
+      this.loadSheet(this.sheetDetails.id);
+    });
   }
 
   onSelectedSheetChange(evt) {

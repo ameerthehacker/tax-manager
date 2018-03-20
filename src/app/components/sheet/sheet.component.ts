@@ -189,6 +189,7 @@ export class SheetComponent implements OnInit {
         } else {
           $("#modal-house-details").modal("hide");
           this.frmHouseDetails.reset();
+          this.messaging.emit("reload-sheets", "");
         }
       });
     }

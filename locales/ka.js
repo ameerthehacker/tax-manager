@@ -17,5 +17,6 @@ export const KA = {
   RECEIPT: "ರಸೀತಿ",
   MR: "ಶ್ರೀ",
   MRS: "ಶ್ರೀಮತಿ",
-  DATE: "ದಿನಾಂಕ"
+  DATE: "ದಿನಾಂಕ",
+  ERRORS: { REQUIRED: "ಈ ಜಾಗ ಬೇಕಾಗಿದೆ" }
 };

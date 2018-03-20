@@ -17,5 +17,8 @@ export const EN = {
   RECEIPT: "Receipt",
   MR: "Mr",
   MRS: "Mrs",
-  DATE: "DATE"
+  DATE: "DATE",
+  ERRORS: {
+    REQUIRED: "This field is required"
+  }
 };

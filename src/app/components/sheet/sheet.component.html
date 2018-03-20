@@ -114,14 +114,14 @@
             <label for="owner-name">Owner Name</label>
             <input id="owner-name" type="text" class="form-control" formControlName="ownerName" placeholder="Name of the house owner">
             <div class="error-field" *ngIf="ownerName.invalid && ownerName.touched">
-              This field is required
+              {{  'ERRORS.REQUIRED' | translate }}
             </div>
           </div>
           <div class="form-group">
             <label for="house-number">House Number</label>
             <input id="house-number" type="text" class="form-control" formControlName="houseNumber" placeholder="House number">
             <div class="error-field" *ngIf="houseNumber.invalid && houseNumber.touched">
-              This field is required
+              {{  'ERRORS.REQUIRED' | translate }}
             </div>
           </div>
         </form>

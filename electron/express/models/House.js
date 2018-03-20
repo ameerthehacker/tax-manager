@@ -1,13 +1,20 @@
 module.exports = {
-  getHouses: db => {
+  getHouses: (db, query = null) => {
     return new Promise((resolve, reject) => {
-      db.all("SELECT id, owner_name FROM houses", (err, houses) => {
-        if (!err) {
-          resolve(houses);
-        } else {
-          reject(err);
+      let queryClause = "";
+      if (query != null) {
+        queryClause = `WHERE owner_name LIKE '${query}%'`;
+      }
+      db.all(
+        `SELECT id, owner_name FROM houses ${queryClause}`,
+        (err, houses) => {
+          if (!err) {
+            resolve(houses);
+          } else {
+            reject(err);
+          }
         }
-      });
+      );
     });
   },
   getHouse: (db, id) => {

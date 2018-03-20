@@ -8,9 +8,9 @@
       </li>
     </ul>
   </div>
-  <form class="form-inline mr-auto">
-    <input type="text" class="form-control mr-sm-2" placeholder="{{ 'SEARCH' | translate }} {{ 'HOUSE' | translate }}...">
-    <button class="btn btn-outline-success">{{ 'SEARCH' | translate }}</button>
+  <form [formGroup]="frmSearch" (submit)="onFrmSearchSubmit()" class="form-inline mr-auto">
+    <input type="text" class="form-control mr-sm-2" formControlName="query" placeholder="{{ 'SEARCH' | translate }} {{ 'HOUSE' | translate }}...">
+    <button type="submit" class="btn btn-outline-success" [disabled]="frmSearch.invalid">{{ 'SEARCH' | translate }}</button>
     <select #languageSelector (change)="onLanguageChange($event)" class="form-control margin-left-5">
       <option value="en">English</option>
       <option value="ka">Kanada</option>

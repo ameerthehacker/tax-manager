@@ -14,7 +14,7 @@ declare var $: any;
 })
 export class HomeComponent implements OnInit, OnDestroy {
   sheets: Array<any> = [];
-  sheetDetails = {};
+  sheetDetails: any = {};
   frmSheetDetails: FormGroup;
   frmTaxDetails: FormGroup;
 
@@ -41,6 +41,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.frmTaxDetails = new FormGroup({
       taxName: new FormControl("", Validators.required)
     });
+    this.messaging.on("house-search", message => {
+      if (this.sheetDetails.id) {
+        this.loadSheet(this.sheetDetails.id, message);
+      }
+    });
   }
   ngOnDestroy() {
     this.messaging.destroy();
@@ -53,11 +58,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadSheet(id: string) {
+  loadSheet(id: string, query: string = null) {
     let sheet: any = {};
     let blanceSheet = {};
+    let url = "";
+    if (query != null) {
+      url = `sheets/${id}?query=${query}`;
+    } else {
+      url = `sheets/${id}`;
+    }
 
-    this.auth.get(`sheets/${id}`).then(result => {
+    this.auth.get(url).then(result => {
       if (!result.error) {
         sheet.id = result.sheet.id;
         // Set the list of available taxes

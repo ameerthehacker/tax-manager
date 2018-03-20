@@ -12,7 +12,7 @@ export class MessagingService {
   on(event: string, callback: Function) {
     this.onMessage.subscribe(evt => {
       if (evt.event == event) {
-        callback();
+        callback(evt.message);
       }
     });
   }

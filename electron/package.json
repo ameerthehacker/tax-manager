@@ -17,8 +17,8 @@
   "author": "ameerthehacker",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^1.8.2",
-    "electron-packager": "^11.0.1",
+    "electron": "^1.8.4",
+    "electron-packager": "^11.1.0",
     "electron-rebuild": "^1.7.3",
     "nodemon": "^1.15.0"
   },

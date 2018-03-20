@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-2 header">
-      Gram Panchayat
+      {{ 'PANCHAYAT' | translate }}
     </div>
     <div class="col-sm-4 bottom-border">
       {{ panchayatName }}
@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-sm-2 header">
-      Receipt
+      {{ 'RECEIPT' | translate }}
     </div>
     <div class="col-sm-4 bottom-border">
       {{ receiptNumber }}
@@ -17,7 +17,7 @@
   </div>
   <div class="row">
     <div class="col-sm-2 header">
-      Mr. / Mrs.
+      {{ 'MR' | translate }}. / {{ 'MRS' | translate }}.
     </div>
     <div class="col-sm-4 bottom-border">
       {{ billDetails.house.owner_name }}
@@ -25,7 +25,7 @@
   </div>
   <div class="row">
     <div class="col-sm-2 header">
-      Total
+      {{ 'TOTAL' | translate }}
     </div>
     <div class="col-sm-2 bottom-border">
       {{ totalAmount }}
@@ -35,10 +35,10 @@
     <div class="col-sm-12">
       <table class="table table-bordered">
         <tr>
-          <th>Tax</th>
-          <th>Balance</th>
-          <th>Current</th>
-          <th>Total</th>
+          <th>{{ 'TAX' | translate }}</th>
+          <th>{{ 'BALANCE' | translate }}</th>
+          <th>{{ 'CURRENT' | translate }}</th>
+          <th>{{ 'TOTAL' | translate }}</th>
         </tr>
         <ng-container *ngFor="let availableTax of availableTaxes">
           <tr *ngIf="billDetails[availableTax.id]">
@@ -69,7 +69,7 @@
   </div>
   <div class="row">
     <div class="col-sm-2 header">
-      Date
+      {{ 'DATE' | translate }}
     </div>
     <div class="col-sm-2 bottom-border">
       {{ todayDate }}

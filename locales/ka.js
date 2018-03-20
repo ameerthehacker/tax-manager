@@ -12,5 +12,10 @@ export const KA = {
   TOTAL: "ಒಟ್ಟು",
   PAID_AMOUNT: "ಪಾವತಿಸಿದ ಮೊತ್ತ",
   USERNAME: "ಬಳಕೆದಾರ ಹೆಸರು",
-  PASSWORD: "ಪಾಸ್ವರ್ಡ್"
+  PASSWORD: "ಪಾಸ್ವರ್ಡ್",
+  PANCHAYAT: "ಪಂಚಾಯತ್",
+  RECEIPT: "ರಸೀತಿ",
+  MR: "ಶ್ರೀ",
+  MRS: "ಶ್ರೀಮತಿ",
+  DATE: "ದಿನಾಂಕ"
 };

@@ -12,5 +12,10 @@ export const EN = {
   TOTAL: "Total",
   PAID_AMOUNT: "Paid Amount",
   USERNAME: "Username",
-  PASSWORD: "Password"
+  PASSWORD: "Password",
+  PANCHAYAT: "Gram Panchayat",
+  RECEIPT: "Receipt",
+  MR: "Mr",
+  MRS: "Mrs",
+  DATE: "DATE"
 };

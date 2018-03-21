@@ -29,5 +29,6 @@ export const KA = {
   YEAR: "ವರ್ಷ",
   HOUSE: "ಮನೆ",
   NUMBER: "ಸಂಖ್ಯೆ",
-  SEARCH: "ಹುಡುಕು"
+  SEARCH: "ಹುಡುಕು",
+  NO_SHEET_AVAILABLE: "ಯಾವುದೇ ಶೀಟ್ ಲಭ್ಯವಿಲ್ಲ"
 };

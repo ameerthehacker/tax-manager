@@ -31,5 +31,6 @@ export const EN = {
   YEAR: "Year",
   HOUSE: "House",
   NUMBER: "Number",
-  SEARCH: "Search"
+  SEARCH: "Search",
+  NO_SHEET_AVAILABLE: "No sheet available"
 };

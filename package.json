@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "node build.js",
+    "build": "ng build --prod --aot=false --base-href=\"\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

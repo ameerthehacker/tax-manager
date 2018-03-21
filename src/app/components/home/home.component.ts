@@ -27,18 +27,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.auth.get("sheets").then(result => {
-      if (!result.err) {
-        this.sheets = result.sheets;
-        // Load the last sheet available
-        if (this.sheets.length >= 1) {
-          this.loadSheet(this.sheets[this.sheets.length - 1].id);
-          this.sheetsAvailable = true;
-        } else {
-          this.sheetLoading = false;
-        }
-      }
-    });
+    this.loadSheets();
     this.frmSheetDetails = new FormGroup({
       fromYear: new FormControl("", Validators.required),
       toYear: new FormControl("", Validators.required)
@@ -52,10 +41,25 @@ export class HomeComponent implements OnInit {
       }
     });
     this.messaging.on("reload-sheets", message => {
+      this.loadSheets();
       this.loadSheet(this.sheetDetails.id);
     });
   }
 
+  loadSheets() {
+    this.auth.get("sheets").then(result => {
+      if (!result.err) {
+        this.sheets = result.sheets;
+        // Load the last sheet available
+        if (this.sheets.length >= 1) {
+          this.loadSheet(this.sheets[this.sheets.length - 1].id);
+          this.sheetsAvailable = true;
+        } else {
+          this.sheetLoading = false;
+        }
+      }
+    });
+  }
   onSelectedSheetChange(evt) {
     if (evt.target.selectedIndex != -1) {
       const sheetId = evt.target.options[evt.target.selectedIndex].value;
@@ -130,6 +134,7 @@ export class HomeComponent implements OnInit {
       .then(result => {
         $("#modal-sheet-details").modal("hide");
         this.frmSheetDetails.reset();
+        this.messaging.emit("reload-sheets", "");
       })
       .catch(err => {
         $("#modal-sheet-details").modal("hide");
@@ -147,6 +152,7 @@ export class HomeComponent implements OnInit {
         if (!result.err) {
           $("#modal-tax-details").modal("hide");
           this.frmTaxDetails.reset();
+          this.messaging.emit("reload-sheets", "");
         }
       })
       .catch(err => {

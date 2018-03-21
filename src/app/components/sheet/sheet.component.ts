@@ -14,6 +14,7 @@ declare var $: any;
 })
 export class SheetComponent implements OnInit {
   @Input() sheetDetails: any;
+  @Input() loading: boolean;
   editable = {};
   frmHouseDetails: FormGroup;
   // To check whether the form is used for insertion or updation

@@ -3,7 +3,7 @@
     <table class="table table-bordered table-responsive">
       <tr>
         <th>{{ 'OWNER_NAME' | translate }}</th>
-        <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} Tax</th>
+        <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} {{ 'TAX' | translate }}</th>
       </tr>
       <tr>
         <th>-</th>

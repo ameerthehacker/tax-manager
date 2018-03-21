@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   frmSheetDetails: FormGroup;
   frmTaxDetails: FormGroup;
   sheetLoading: boolean = true;
+  sheetsAvailable: boolean = false;
 
   constructor(
     private auth: AuthService,
@@ -32,6 +33,9 @@ export class HomeComponent implements OnInit {
         // Load the last sheet available
         if (this.sheets.length >= 1) {
           this.loadSheet(this.sheets[this.sheets.length - 1].id);
+          this.sheetsAvailable = true;
+        } else {
+          this.sheetLoading = false;
         }
       }
     });

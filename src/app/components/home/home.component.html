@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12" *ngIf="!sheetLoading">
+    <div class="col-sm-12" *ngIf="!sheetLoading && sheetsAvailable">
       <tm-sheet [sheetDetails]="sheetDetails"></tm-sheet>
     </div>
     <div class="col-sm-12 offset-md-3 col-md-6 margin-top-60" *ngIf="sheetLoading">
@@ -36,6 +36,15 @@
         <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%">
           Loading...
         </div>
+      </div>
+    </div>
+    <div class="col-sm-12 offset-md-3 col-md-6 margin-top-60" *ngIf="!sheetsAvailable">
+      <div class="jumbotron">
+        <h1 class="text-center display-4">No sheet available</h1>
+        <hr>
+        <p class="lead text-center">
+          <button class="btn btn-outline-success">New Sheet</button>
+        </p>
       </div>
     </div>
   </div>

@@ -79,23 +79,23 @@ function createSchema() {
   db.serialize(() => {
     // Users table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS users (username STRING PRIMARY_KEY, password STRING)`
+      `CREATE TABLE IF NOT EXISTS users (username STRING PRIMARY KEY, password STRING)`
     );
     // Sheets table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS sheets (id INT AUTO_INCREMENT PRIMARY_KEY, from_year INT, to_year INT)`
+      `CREATE TABLE IF NOT EXISTS sheets (id INTEGER PRIMARY KEY AUTOINCREMENT, from_year INT, to_year INT)`
     );
     // Taxes table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS taxes (id INT AUTO_INCREMENT PRIMARY_KEY, tax STRING)`
+      `CREATE TABLE IF NOT EXISTS taxes (id INTEGER PRIMARY KEY AUTOINCREMENT, tax STRING)`
     );
     // Houses table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS houses (id INT AUTO_INCREMENT PRIMARY_KEY, owner_name STRING, house_number STRING)`
+      `CREATE TABLE IF NOT EXISTS houses (id INTEGER PRIMARY KEY AUTOINCREMENT, owner_name STRING, house_number STRING)`
     );
     // Payments table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS payments (id INT AUTO_INCREMENT PRIMARY_KEY, sheet_id INT, house_id INT, tax_id INT, amount REAL, paid_amount REAL)`
+      `CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY AUTOINCREMENT, sheet_id INT, house_id INT, tax_id INT, amount REAL, paid_amount REAL)`
     );
   });
 }

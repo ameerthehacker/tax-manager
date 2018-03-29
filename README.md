@@ -42,7 +42,7 @@ npm run build
 npm run package:win
 ```
 
-    The windows executable can be found in the directory **electron/dist**
+The windows executable can be found in the directory **electron/dist**
 
 6.  Copy the **.env** file to root of the executable directory
 

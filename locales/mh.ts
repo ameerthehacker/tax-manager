@@ -1,4 +1,4 @@
-export const KA = {
+export const MH = {
   APP_NAME: "कर व्यवस्थापक",
   LOGIN: "लॉग इन",
   LOGOUT: "बाहेर पडणे",

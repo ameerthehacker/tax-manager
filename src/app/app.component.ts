@@ -6,6 +6,7 @@ import { MessagingService } from "./services/messaging/messaging.service";
 // Import various language services
 import { EN } from "../../locales/en";
 import { KA } from "../../locales/ka";
+import { MH } from "../../locales/mh";
 
 @Component({
   selector: "app-root",
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Load various language services
     this.translateService.setTranslation("en", EN);
     this.translateService.setTranslation("ka", KA);
+    this.translateService.setTranslation("mh", MH);
     // Get default from localstorage
     const language = localStorage.getItem("language") || "en";
     this.translateService.use(language);

@@ -13,6 +13,7 @@ const auth = require("./routes/auth");
 const houses = require("./routes/houses");
 const sheets = require("./routes/sheets");
 const taxes = require("./routes/taxes");
+const villages = require("./routes/villages");
 
 const sqlite = require("sqlite3").verbose();
 // Models
@@ -66,6 +67,11 @@ app.use("/auth", auth);
 app.use("/houses", passport.authenticate("jwt", { session: false }), houses);
 app.use("/sheets", passport.authenticate("jwt", { session: false }), sheets);
 app.use("/taxes", passport.authenticate("jwt", { session: false }), taxes);
+app.use(
+  "/villages",
+  passport.authenticate("jwt", { session: false }),
+  villages
+);
 
 // Set the database object
 app.set("db", db);
@@ -87,7 +93,7 @@ function createSchema() {
     );
     // Sheets table creation
     db.run(
-      `CREATE TABLE IF NOT EXISTS sheets (id INTEGER PRIMARY KEY AUTOINCREMENT, from_year INT, to_year INT)`
+      `CREATE TABLE IF NOT EXISTS sheets (id INTEGER PRIMARY KEY AUTOINCREMENT, village_id INT, from_year INT, to_year INT)`
     );
     // Taxes table creation
     db.run(

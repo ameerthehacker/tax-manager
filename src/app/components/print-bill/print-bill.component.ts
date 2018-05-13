@@ -17,6 +17,7 @@ export class PrintBillComponent implements OnInit {
   totalAmount: number = 0;
   todayDate: string;
   receiptNumber: string;
+  villageName: string;
 
   constructor(
     private auth: AuthService,
@@ -30,6 +31,7 @@ export class PrintBillComponent implements OnInit {
       const houseId = params.houseId;
       this.billDetails.house = {};
       this.id = params.id;
+      this.villageName = params.villageName;
       this.todayDate = datetime.format(new Date(), "DD/MM/YY");
 
       if (sheetId && houseId) {

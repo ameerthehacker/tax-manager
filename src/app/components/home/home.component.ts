@@ -14,6 +14,9 @@ declare var $: any;
 })
 export class HomeComponent implements OnInit {
   sheets: Array<any> = [];
+  villages: Array<any> = [];
+  selectedVillageId: any;
+  selectedVillageName: String;
   sheetDetails: any = {};
   frmSheetDetails: FormGroup;
   frmTaxDetails: FormGroup;
@@ -27,7 +30,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadSheets();
+    this.loadVillages();
     this.frmSheetDetails = new FormGroup({
       fromYear: new FormControl("", Validators.required),
       toYear: new FormControl("", Validators.required)
@@ -41,13 +44,15 @@ export class HomeComponent implements OnInit {
       }
     });
     this.messaging.on("reload-sheets", message => {
-      this.loadSheets();
+      if (this.selectedVillageId) {
+        this.loadSheets(this.selectedVillageId);
+      }
       this.loadSheet(this.sheetDetails.id);
     });
   }
 
-  loadSheets() {
-    this.auth.get("sheets").then(result => {
+  loadSheets(villageId) {
+    this.auth.get(`sheets?village_id=${villageId}`).then(result => {
       if (!result.err) {
         this.sheets = result.sheets;
         // Load the last sheet available
@@ -55,8 +60,23 @@ export class HomeComponent implements OnInit {
           this.loadSheet(this.sheets[this.sheets.length - 1].id);
           this.sheetsAvailable = true;
         } else {
+          this.sheetsAvailable = false;
           this.sheetLoading = false;
         }
+      }
+    });
+  }
+  loadVillages() {
+    this.auth.get("villages").then(result => {
+      if (!result.err) {
+        this.villages = result.villages;
+      }
+      if (this.villages.length > 0) {
+        this.selectedVillageId = this.villages[this.villages.length - 1].id;
+        this.selectedVillageName = this.villages[
+          this.villages.length - 1
+        ].village_name;
+        this.loadSheets(this.villages[this.villages.length - 1].id);
       }
     });
   }
@@ -64,6 +84,16 @@ export class HomeComponent implements OnInit {
     if (evt.target.selectedIndex != -1) {
       const sheetId = evt.target.options[evt.target.selectedIndex].value;
       this.loadSheet(sheetId);
+    }
+  }
+  onSelectedVillageChange(evt) {
+    if (evt.target.selectedIndex != -1) {
+      this.selectedVillageId =
+        evt.target.options[evt.target.selectedIndex].value;
+      this.selectedVillageName = this.villages[
+        evt.target.selectedIndex
+      ].village_name;
+      const villageId = this.loadSheets(this.selectedVillageId);
     }
   }
 
@@ -127,7 +157,7 @@ export class HomeComponent implements OnInit {
   }
   onBtnSaveSheetClick(evt) {
     this.auth
-      .post("sheets", {
+      .post(`sheets?village_id=${this.selectedVillageId}`, {
         fromYear: this.fromYear.value,
         toYear: this.toYear.value
       })

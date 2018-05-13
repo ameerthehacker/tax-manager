@@ -8,7 +8,13 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4 col-lg-2 col-sm-10">
+    <div class="col-md-4 col-lg-2 col-sm-5">
+      <select class="form-control" (change)="onSelectedVillageChange($event)">
+        <!-- Make sure that the last option is selected by default -->
+        <option selected="{{ (i == villages.length) }}" *ngFor="let village of villages; let i = index" [value]="village.id">{{ village.village_name }}</option>
+      </select>
+    </div>
+    <div class="col-md-4 col-lg-2 col-sm-5">
       <select class="form-control" (change)="onSelectedSheetChange($event)">
         <!-- Make sure that the last option is selected by default -->
         <option selected="{{ (i == sheets.length) }}" *ngFor="let sheet of sheets; let i = index" [value]="sheet.id">{{sheet.from_year}}-{{sheet.to_year}}</option>
@@ -29,7 +35,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <tm-sheet [sheetDetails]="sheetDetails" [loading]="!sheetLoading && sheetsAvailable"></tm-sheet>
+      <tm-sheet [sheetDetails]="sheetDetails" [villageName]="selectedVillageName" [loading]="!sheetLoading && sheetsAvailable"></tm-sheet>
     </div>
     <div class="col-sm-12 offset-md-3 col-md-6 margin-top-60" *ngIf="sheetLoading">
       <div class="progress">

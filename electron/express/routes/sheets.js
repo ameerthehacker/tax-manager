@@ -5,7 +5,9 @@ const Sheet = require("../models/Sheet");
 
 router.get("/", (req, res) => {
   const db = req.app.get("db");
-  Sheet.getAllSheets(db)
+
+  const villageId = req.query.village_id;
+  Sheet.getAllSheets(db, villageId)
     .then(sheets => {
       res.json({ error: false, sheets: sheets });
     })
@@ -80,8 +82,9 @@ router.post("/", (req, res) => {
   const db = req.app.get("db");
   const fromYear = req.body.fromYear;
   const toYear = req.body.toYear;
+  const villageId = req.query.village_id;
 
-  Sheet.addSheet(db, fromYear, toYear)
+  Sheet.addSheet(db, villageId, fromYear, toYear)
     .then(result => {
       res.json({ error: false, result: result });
     })

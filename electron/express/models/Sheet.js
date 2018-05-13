@@ -2,15 +2,19 @@ const Tax = require("./Tax");
 const House = require("./House");
 
 module.exports = {
-  getAllSheets: db => {
+  getAllSheets: (db, villageId) => {
     return new Promise((resolve, reject) => {
-      db.all("SELECT id, from_year, to_year FROM sheets", (err, sheets) => {
-        if (!err) {
-          resolve(sheets);
-        } else {
-          reject(err);
+      db.all(
+        "SELECT id, from_year, to_year FROM sheets WHERE village_id=?",
+        [villageId],
+        (err, sheets) => {
+          if (!err) {
+            resolve(sheets);
+          } else {
+            reject(err);
+          }
         }
-      });
+      );
     });
   },
   updateAmount: (db, id, houseId, taxId, amount) => {
@@ -124,11 +128,11 @@ module.exports = {
       );
     });
   },
-  addSheet: (db, fromYear, toYear) => {
+  addSheet: (db, villageId, fromYear, toYear) => {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO sheets (from_year, to_year) VALUES(?, ?)",
-        [fromYear, toYear],
+        "INSERT INTO sheets (village_id, from_year, to_year) VALUES(?, ?, ?)",
+        [villageId, fromYear, toYear],
         (err, result) => {
           if (!err) {
             resolve(result);

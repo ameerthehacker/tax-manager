@@ -24,7 +24,7 @@
           <a href="#" (click)="onHouseDetailsEditClick($event)">
             <i [attr.data-house-id]="availableHouse.id" class="fa fa-pencil"></i>
           </a>
-          <a [routerLink]="['/print-bill']" [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id, id: i + 1 }">
+          <a [routerLink]="['/print-bill']" [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id, id: i + 1, villageName: villageName }">
             <i class="fa fa-print"></i>
           </a>
         </td>

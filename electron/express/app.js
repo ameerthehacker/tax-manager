@@ -81,6 +81,10 @@ function createSchema() {
     db.run(
       `CREATE TABLE IF NOT EXISTS users (username STRING PRIMARY KEY, password STRING)`
     );
+    // Villages table creation
+    db.run(
+      `CREATE TABLE IF NOT EXISTS villages (id INTEGER PRIMARY KEY AUTOINCREMENT, village_name STRING)`
+    );
     // Sheets table creation
     db.run(
       `CREATE TABLE IF NOT EXISTS sheets (id INTEGER PRIMARY KEY AUTOINCREMENT, from_year INT, to_year INT)`

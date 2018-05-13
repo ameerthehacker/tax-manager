@@ -2,10 +2,12 @@
   <div class="col-sm-12">
     <table class="table table-bordered table-responsive">
       <tr>
+        <th>S.No</th>
         <th>{{ 'OWNER_NAME' | translate }}</th>
         <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} {{ 'TAX' | translate }}</th>
       </tr>
       <tr>
+        <th>-</th>
         <th>-</th>
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
           <th>{{ 'PREVIOUS' | translate }}</th>
@@ -15,13 +17,14 @@
           <th>{{ 'BALANCE' | translate }}</th>
         </ng-container>
       </tr>
-      <tr *ngFor="let availableHouse of sheetDetails.availableHouses">
+      <tr *ngFor="let availableHouse of sheetDetails.availableHouses; let i = index">
+        <td>{{ i + 1 }}</td>
         <td>
           {{ availableHouse.owner_name }} &nbsp;
           <a href="#" (click)="onHouseDetailsEditClick($event)">
             <i [attr.data-house-id]="availableHouse.id" class="fa fa-pencil"></i>
           </a>
-          <a [routerLink]="['/print-bill']" [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id }">
+          <a [routerLink]="['/print-bill']" [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id, id: i + 1 }">
             <i class="fa fa-print"></i>
           </a>
         </td>

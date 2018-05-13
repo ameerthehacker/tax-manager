@@ -10,6 +10,7 @@ import { AuthService } from "../../services/auth/auth.service";
   styleUrls: ["./print-bill.component.scss"]
 })
 export class PrintBillComponent implements OnInit {
+  id: any;
   billDetails: any = {};
   availableTaxes = [];
   panchayatName: string;
@@ -28,6 +29,7 @@ export class PrintBillComponent implements OnInit {
       const sheetId = params.sheetId;
       const houseId = params.houseId;
       this.billDetails.house = {};
+      this.id = params.id;
       this.todayDate = datetime.format(new Date(), "DD/MM/YY");
 
       if (sheetId && houseId) {

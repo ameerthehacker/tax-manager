@@ -5,6 +5,7 @@ import { HttpModule } from "@angular/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgFlashMessagesModule } from "ng-flash-messages";
 import { TranslateModule } from "@ngx-translate/core";
+import { NgxPaginationModule } from "ngx-pagination";
 
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -36,7 +37,8 @@ import { MessagingService } from "./services/messaging/messaging.service";
     FormsModule,
     ReactiveFormsModule,
     NgFlashMessagesModule.forRoot(),
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [AuthService, AuthGuard, MessagingService],
   bootstrap: [AppComponent]

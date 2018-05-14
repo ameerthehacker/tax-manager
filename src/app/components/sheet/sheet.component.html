@@ -1,3 +1,10 @@
+<div class="row" *ngIf="loading">
+  <div class="col-sm-12 text-center">
+    <pagination-controls id="sheet" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="false" previousLabel="Previous"
+      nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
 <div class="row no-gutters" *ngIf="loading">
   <div class="col-sm-12">
     <table class="table table-bordered table-responsive">
@@ -17,82 +24,84 @@
           <th>{{ 'BALANCE' | translate }}</th>
         </ng-container>
       </tr>
-      <tr *ngFor="let availableHouse of sheetDetails.availableHouses; let i = index">
+      <tr *ngFor="let availableHouse of sheetDetails.availableHouses | paginate: { id: 'sheet', itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalHouses }; let i=index">
         <td>{{ i + 1 }}</td>
         <td>
           {{ availableHouse.owner_name }} &nbsp;
-          <a href="#" (click)="onHouseDetailsEditClick($event)">
-            <i [attr.data-house-id]="availableHouse.id" class="fa fa-pencil"></i>
+          <a href="# " (click)="onHouseDetailsEditClick($event) ">
+            <i [attr.data-house-id]="availableHouse.id " class="fa fa-pencil "></i>
           </a>
-          <a [routerLink]="['/print-bill']" [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id, id: i + 1, villageName: villageName }">
-            <i class="fa fa-print"></i>
+          <a [routerLink]="[ '/print-bill'] " [queryParams]="{ sheetId: sheetDetails.id, houseId: availableHouse.id, id:
+        i + 1, villageName: villageName } ">
+            <i class="fa fa-print "></i>
           </a>
         </td>
         <!-- List the tax and the amount paid -->
-        <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
-          <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">
-            <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear">
+        <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes ">
+          <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id] ">
+            <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear ">
               {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear }}
             </td>
-            <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear">
+            <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear ">
               -
             </td>
             <td>
-              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
-                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable">
+              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear ">
+                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable ">
                   {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear }} &nbsp;
                 </ng-container>
               </ng-container>
-              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear && !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable">
+              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear &&
+        !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable ">
                 -
               </ng-container>
-              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable" (click)="onCurrentYearEditClick($event, availableHouse.id, availableTax.id)"
-                href="#">
-                <i class="fa fa-1x fa-pencil"></i>
+              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable
+        " (click)="onCurrentYearEditClick($event, availableHouse.id, availableTax.id) " href="# ">
+                <i class="fa fa-1x fa-pencil "></i>
               </a>
-              <input type="text" (blur)="onCurrentYearBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)" (keypress)="onCurrentYearKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id)"
-                class="form-control" *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable"
-                [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear">
+              <input type="text " (blur)="onCurrentYearBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)
+        " (keypress)="onCurrentYearKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id) " class="form-control "
+                *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable " [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear ">
             </td>
             <td>
               {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
               || 0) }}
             </td>
             <td>
-              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
-                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable">
+              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount ">
+                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable ">
                   {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount }} &nbsp;
                 </ng-container>
               </ng-container>
-              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount && !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable">
+              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount && !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable ">
                 -
               </ng-container>
-              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable" (click)="onPaidAmountEditClick($event, availableHouse.id, availableTax.id)"
-                href="#">
-                <i class="fa fa-1x fa-pencil"></i>
+              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable
+        " (click)="onPaidAmountEditClick($event, availableHouse.id, availableTax.id) " href="# ">
+                <i class="fa fa-1x fa-pencil "></i>
               </a>
-              <input type="text" (blur)="onPaidAmountBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)" (keypress)="onPaidAmountKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id)"
-                class="form-control" *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable"
-                [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount">
+              <input type="text " (blur)="onPaidAmountBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)
+        " (keypress)="onPaidAmountKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id) " class="form-control "
+                *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable " [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount ">
             </td>
             <td>
               {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
               || 0) - parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount || 0) }}
             </td>
           </ng-container>
-          <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id]">
+          <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id] ">
             <td>-</td>
             <td>
               -
-              <a (click)="onCurrentYearAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id)" href="#">
-                <i class="fa fa-1x fa-pencil"></i>
+              <a (click)="onCurrentYearAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id) " href="# ">
+                <i class="fa fa-1x fa-pencil "></i>
               </a>
             </td>
             <td>0</td>
             <td>
               -
-              <a (click)="onPaidAmountAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id)" href="#">
-                <i class="fa fa-1x fa-pencil"></i>
+              <a (click)="onPaidAmountAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id) " href="# ">
+                <i class="fa fa-1x fa-pencil "></i>
               </a>
             </td>
             <td>0</td>
@@ -102,37 +111,46 @@
     </table>
   </div>
 </div>
+<div class="row" *ngIf="loading">
+  <div class="col-sm-12 text-center">
+    <pagination-controls id="sheet" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true" autoHide="false" previousLabel="Previous"
+      nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+
 
 <!-- Modal for house details -->
 <div id="modal-house-details" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">{{ 'HOUSE' | translate }} {{ 'DETAILS' | translate }}</h4>
+        <h4 class="modal-title">{{ 'HOUSE ' | translate }} {{ 'DETAILS ' | translate }}</h4>
         <button class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
         <form action="" [formGroup]="frmHouseDetails">
           <div class="form-group">
-            <label for="owner-name">{{ 'OWNER' | translate }} {{ 'NAME' | translate }}</label>
-            <input id="owner-name" type="text" class="form-control" formControlName="ownerName" placeholder="{{ 'OWNER' | translate }} {{ 'NAME' | translate }}">
+            <label for="owner-name">{{ 'OWNER ' | translate }} {{ 'NAME ' | translate }}</label>
+            <input id="owner-name" type="text" class="form-control" formControlName="ownerName" placeholder="{{ 'OWNER
+        ' | translate }} {{ 'NAME ' | translate }}">
             <div class="error-field" *ngIf="ownerName.invalid && ownerName.touched">
-              {{ 'ERRORS.REQUIRED' | translate }}
+              {{ 'ERRORS.REQUIRED ' | translate }}
             </div>
           </div>
           <div class="form-group">
-            <label for="house-number">{{ 'HOUSE' | translate }} {{ 'NUMBER' | translate }}</label>
+            <label for="house-number">{{ 'HOUSE ' | translate }} {{ 'NUMBER ' | translate }}</label>
             <input id="house-number" type="text" class="form-control" formControlName="houseNumber" placeholder="House number">
             <div class="error-field" *ngIf="houseNumber.invalid && houseNumber.touched">
-              {{ 'ERRORS.REQUIRED' | translate }}
+              {{ 'ERRORS.REQUIRED ' | translate }}
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button (click)="onBtnSaveClick($event)" [disabled]="frmHouseDetails.invalid" class="btn btn-success">
-          <i class="fa fa-floppy-o"></i>&nbsp;{{ 'SAVE' | translate }}</button>
-        <button data-dismiss="modal" class="btn btn-danger">{{ 'CANCEL' | translate }}</button>
+          <i class="fa fa-floppy-o"></i>&nbsp;{{ 'SAVE ' | translate }}</button>
+        <button data-dismiss="modal" class="btn btn-danger">{{ 'CANCEL ' | translate }}</button>
       </div>
     </div>
   </div>

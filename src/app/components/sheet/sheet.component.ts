@@ -16,7 +16,11 @@ export class SheetComponent implements OnInit {
   @Input() sheetDetails: any;
   @Input() loading: boolean;
   @Input() villageName: string;
+  @Input() pageSize: number;
+  @Input() currentPage: number;
+  @Input() totalHouses: number;
   editable = {};
+
   frmHouseDetails: FormGroup;
   // To check whether the form is used for insertion or updation
   frmHouseDetailsAction = { operation: "", houseId: "" };
@@ -251,6 +255,9 @@ export class SheetComponent implements OnInit {
           });
         }
       });
+  }
+  pageChanged($event) {
+    console.log($event);
   }
   private initializeTax(tax) {
     return {

@@ -1,12 +1,15 @@
 module.exports = {
-  getHouses: (db, query = null) => {
+  getHouses: (db, page = 1, query = null) => {
+    const pageSize = 10;
+    const offset = pageSize * (page - 1);
+
     return new Promise((resolve, reject) => {
       let queryClause = "";
       if (query != null) {
         queryClause = `WHERE owner_name LIKE '${query}%'`;
       }
       db.all(
-        `SELECT id, owner_name FROM houses ${queryClause}`,
+        `SELECT id, owner_name FROM houses ${queryClause} LIMIT ${offset},${pageSize}`,
         (err, houses) => {
           if (!err) {
             resolve(houses);
@@ -15,6 +18,17 @@ module.exports = {
           }
         }
       );
+    });
+  },
+  getHousesCount: db => {
+    return new Promise((resolve, reject) => {
+      db.get("SELECT count(id) as total FROM houses", (err, result) => {
+        if (!err) {
+          resolve(result.total);
+        } else {
+          reject(err);
+        }
+      });
     });
   },
   getHouse: (db, id) => {

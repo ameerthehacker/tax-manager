@@ -47,12 +47,15 @@ module.exports = {
       );
     });
   },
-  getSheet: (db, id, query = null) => {
+  getSheet: (db, id, page = 1, query = null) => {
     let previousBalanceSheet = {};
     let currentBalanceSheet = {};
     let availableTaxes = [];
     let availableHouses = [];
     let queryClause = "";
+    let totalHouses = 0;
+    const pageSize = 10;
+    const offset = pageSize * (page - 1);
 
     if (query != null) {
       queryClause = `AND h.owner_name LIKE '${query}%'`;
@@ -61,7 +64,7 @@ module.exports = {
     const previousBalance = () => {
       return new Promise((resolve, reject) => {
         db.all(
-          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) ${queryClause} group by p.tax_id, p.house_id`,
+          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) ${queryClause} group by p.tax_id, p.house_id LIMIT ${offset},${pageSize}`,
           [id],
           (err, sheet) => {
             if (!err) {
@@ -77,7 +80,7 @@ module.exports = {
     const currentBalance = () => {
       return new Promise((resolve, reject) => {
         db.all(
-          `SELECT h.id as house_id, h.owner_name, t.id as tax_id,t.tax, p.paid_amount, p.amount FROM houses h INNER JOIN taxes t INNER JOIN payments p on t.id = p.tax_id AND p.house_id = h.id AND p.sheet_id=? ${queryClause}`,
+          `SELECT h.id as house_id, h.owner_name, t.id as tax_id,t.tax, p.paid_amount, p.amount FROM houses h INNER JOIN taxes t INNER JOIN payments p on t.id = p.tax_id AND p.house_id = h.id AND p.sheet_id=? ${queryClause} LIMIT ${offset},${pageSize}`,
           [id],
           (err, sheet) => {
             if (!err) {
@@ -101,11 +104,17 @@ module.exports = {
       })
       .then(result => {
         availableTaxes = result;
-        return House.getHouses(db, query);
+        return House.getHouses(db, page, query);
       })
       .then(result => {
         availableHouses = result;
+        return House.getHousesCount(db);
+      })
+      .then(result => {
+        totalHouses = result;
         return {
+          pageSize: pageSize,
+          totalHouses: totalHouses,
           previousBalanceSheet: previousBalanceSheet,
           currentBalanceSheet: currentBalanceSheet,
           availableTaxes: availableTaxes,

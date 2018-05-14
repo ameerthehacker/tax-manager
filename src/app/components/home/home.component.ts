@@ -22,6 +22,9 @@ export class HomeComponent implements OnInit {
   frmTaxDetails: FormGroup;
   sheetLoading: boolean = true;
   sheetsAvailable: boolean = false;
+  currentPage = 1;
+  pageSize;
+  totalHouses;
 
   constructor(
     private auth: AuthService,
@@ -40,14 +43,14 @@ export class HomeComponent implements OnInit {
     });
     this.messaging.on("house-search", message => {
       if (this.sheetDetails.id) {
-        this.loadSheet(this.sheetDetails.id, message);
+        this.loadSheet(this.sheetDetails.id, this.currentPage, message);
       }
     });
     this.messaging.on("reload-sheets", message => {
       if (this.selectedVillageId) {
         this.loadSheets(this.selectedVillageId);
       }
-      this.loadSheet(this.sheetDetails.id);
+      this.loadSheet(this.sheetDetails.id, this.currentPage);
     });
   }
 
@@ -57,7 +60,10 @@ export class HomeComponent implements OnInit {
         this.sheets = result.sheets;
         // Load the last sheet available
         if (this.sheets.length >= 1) {
-          this.loadSheet(this.sheets[this.sheets.length - 1].id);
+          this.loadSheet(
+            this.sheets[this.sheets.length - 1].id,
+            this.currentPage
+          );
           this.sheetsAvailable = true;
         } else {
           this.sheetsAvailable = false;
@@ -83,7 +89,7 @@ export class HomeComponent implements OnInit {
   onSelectedSheetChange(evt) {
     if (evt.target.selectedIndex != -1) {
       const sheetId = evt.target.options[evt.target.selectedIndex].value;
-      this.loadSheet(sheetId);
+      this.loadSheet(sheetId, this.currentPage);
     }
   }
   onSelectedVillageChange(evt) {
@@ -97,19 +103,21 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  loadSheet(id: string, query: string = null) {
+  loadSheet(id: string, page: number = 1, query: string = null) {
     let sheet: any = {};
     let blanceSheet = {};
     let url = "";
     if (query != null) {
-      url = `sheets/${id}?query=${query}`;
+      url = `sheets/${id}?query=${query}&page=${page}`;
     } else {
-      url = `sheets/${id}`;
+      url = `sheets/${id}?page=${page}`;
     }
     this.sheetLoading = true;
     this.auth.get(url).then(result => {
       if (!result.error) {
-        this.sheetLoading = false;
+        this.pageSize = result.sheet.pageSize;
+        this.totalHouses = result.sheet.totalHouses;
+        this.currentPage = page;
         sheet.id = result.sheet.id;
         // Set the list of available taxes
         sheet.availableTaxes = result.sheet.availableTaxes;
@@ -144,6 +152,7 @@ export class HomeComponent implements OnInit {
         sheet.balanceSheet = blanceSheet;
         this.sheetDetails = sheet;
       }
+      this.sheetLoading = false;
     });
   }
   get toYear() {

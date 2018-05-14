@@ -19,9 +19,10 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const db = req.app.get("db");
   const id = req.params.id;
+  const page = req.query.page || 1;
   const query = req.query.query;
 
-  Sheet.getSheet(db, id, query)
+  Sheet.getSheet(db, id, page, query)
     .then(sheet => {
       sheet.id = id;
       res.json({ error: false, sheet: sheet });

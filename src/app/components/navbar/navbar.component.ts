@@ -41,6 +41,9 @@ export class NavbarComponent implements OnInit {
     this.translateService.use(language);
   }
   onFrmSearchSubmit() {
-    this.messaging.emit("house-search", this.frmSearch.get("query").value);
+    this.messaging.emit(
+      "house-search",
+      this.frmSearch.get("query").value.trim()
+    );
   }
 }

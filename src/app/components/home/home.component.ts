@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
     });
     this.messaging.on("house-search", message => {
       if (this.sheetDetails.id) {
+        this.currentPage = 1;
         this.loadSheet(this.sheetDetails.id, this.currentPage, message);
       }
     });

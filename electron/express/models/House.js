@@ -20,15 +20,22 @@ module.exports = {
       );
     });
   },
-  getHousesCount: db => {
+  getHousesCount: (db, query) => {
     return new Promise((resolve, reject) => {
-      db.get("SELECT count(id) as total FROM houses", (err, result) => {
-        if (!err) {
-          resolve(result.total);
-        } else {
-          reject(err);
+      let queryClause = "";
+      if (query != null) {
+        queryClause = `WHERE owner_name LIKE '${query}%'`;
+      }
+      db.all(
+        `SELECT count(id) as total FROM houses ${queryClause}`,
+        (err, result) => {
+          if (!err) {
+            resolve(result[0].total);
+          } else {
+            reject(err);
+          }
         }
-      });
+      );
     });
   },
   getHouse: (db, id) => {

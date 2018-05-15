@@ -112,8 +112,8 @@ module.exports = {
     const previousBalance = () => {
       return new Promise((resolve, reject) => {
         db.all(
-          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) AND village_id=1 ${queryClause} group by p.tax_id, p.house_id`,
-          [id],
+          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) AND village_id= (SELECT village_id FROM sheets WHERE id=?) ${queryClause} group by p.tax_id, p.house_id`,
+          [id, id],
           (err, sheet) => {
             if (!err) {
               resolve(sheet);
@@ -156,7 +156,7 @@ module.exports = {
       })
       .then(result => {
         availableHouses = result;
-        return House.getHousesCount(db);
+        return House.getHousesCount(db, query);
       })
       .then(result => {
         totalHouses = result;

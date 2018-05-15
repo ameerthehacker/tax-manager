@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "../../services/auth/auth.service";
@@ -19,6 +19,7 @@ export class SheetComponent implements OnInit {
   @Input() pageSize: number;
   @Input() currentPage: number;
   @Input() totalHouses: number;
+  @Output() onPageChanged: EventEmitter<number> = new EventEmitter();
   editable = {};
 
   frmHouseDetails: FormGroup;
@@ -257,7 +258,7 @@ export class SheetComponent implements OnInit {
       });
   }
   pageChanged($event) {
-    console.log($event);
+    this.onPageChanged.emit($event);
   }
   private initializeTax(tax) {
     return {

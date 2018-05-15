@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
 
   loadSheet(id: string, page: number = 1, query: string = null) {
     let sheet: any = {};
-    let blanceSheet = {};
+    let balanceSheet = {};
     let url = "";
     if (query != null) {
       url = `sheets/${id}?query=${query}&page=${page}`;
@@ -124,32 +124,38 @@ export class HomeComponent implements OnInit {
         // Set the houses
         sheet.availableHouses = result.sheet.availableHouses;
         sheet.availableHouses.forEach(availableHouse => {
-          blanceSheet[availableHouse.id] = {
+          balanceSheet[availableHouse.id] = {
             owner_name: availableHouse.owner_name,
             taxes: {}
           };
         });
 
         result.sheet.currentBalanceSheet.forEach(details => {
-          blanceSheet[details.house_id].taxes[details.tax_id] = {
-            name: details.tax,
-            currentYear: details.amount,
-            paidAmount: details.paid_amount
-          };
-        });
-
-        result.sheet.previousBalanceSheet.forEach(details => {
-          if (blanceSheet[details.house_id].taxes[details.tax_id]) {
-            blanceSheet[details.house_id].taxes[details.tax_id].previousYear =
-              details.balance;
-          } else {
-            blanceSheet[details.house_id].taxes[details.tax_id] = {
+          if (balanceSheet[details.house_id]) {
+            balanceSheet[details.house_id].taxes[details.tax_id] = {
               name: details.tax,
-              previousYear: details.balance
+              currentYear: details.amount,
+              paidAmount: details.paid_amount
             };
           }
         });
-        sheet.balanceSheet = blanceSheet;
+
+        result.sheet.previousBalanceSheet.forEach(details => {
+          if (balanceSheet[details.house_id]) {
+            if (balanceSheet[details.house_id].taxes[details.tax_id]) {
+              balanceSheet[details.house_id].taxes[
+                details.tax_id
+              ].previousYear =
+                details.balance;
+            } else {
+              balanceSheet[details.house_id].taxes[details.tax_id] = {
+                name: details.tax,
+                previousYear: details.balance
+              };
+            }
+          }
+        });
+        sheet.balanceSheet = balanceSheet;
         this.sheetDetails = sheet;
       }
       this.sheetLoading = false;
@@ -202,6 +208,10 @@ export class HomeComponent implements OnInit {
           messages: ["Error creating the tax"]
         });
       });
+  }
+  onPageChanged($event) {
+    this.loadSheet(this.sheetDetails.id, $event);
+    this.currentPage = $event;
   }
   onBtnNewHouseClick(evt) {
     evt.preventDefault();

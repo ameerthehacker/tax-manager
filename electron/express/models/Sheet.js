@@ -19,12 +19,36 @@ module.exports = {
   },
   updateAmount: (db, id, houseId, taxId, amount) => {
     return new Promise((resolve, reject) => {
-      db.run(
-        "UPDATE payments SET amount=? WHERE sheet_id=? AND house_id=? AND tax_id=?",
-        [amount, id, houseId, taxId],
-        (err, result) => {
+      db.all(
+        "SELECT id FROM payments WHERE sheet_id=? AND house_id=? AND tax_id=?",
+        [id, houseId, taxId],
+        (err, sheets) => {
           if (!err) {
-            resolve(result);
+            if (sheets.length !== 0) {
+              db.run(
+                "UPDATE payments SET amount=? WHERE sheet_id=? AND house_id=? AND tax_id=?",
+                [amount, id, houseId, taxId],
+                (err, result) => {
+                  if (!err) {
+                    resolve(result);
+                  } else {
+                    reject(err);
+                  }
+                }
+              );
+            } else {
+              db.run(
+                "INSERT INTO payments (sheet_id, house_id, tax_id, amount) VALUES(?, ?, ?, ?)",
+                [id, houseId, taxId, amount],
+                (err, result) => {
+                  if (!err) {
+                    resolve(result);
+                  } else {
+                    reject(err);
+                  }
+                }
+              );
+            }
           } else {
             reject(err);
           }
@@ -34,12 +58,36 @@ module.exports = {
   },
   updatePaid: (db, id, houseId, taxId, amount) => {
     return new Promise((resolve, reject) => {
-      db.run(
-        "UPDATE payments SET paid_amount=? WHERE sheet_id=? AND house_id=? AND tax_id=?",
-        [amount, id, houseId, taxId],
-        (err, result) => {
+      db.all(
+        "SELECT id FROM payments WHERE sheet_id=? AND house_id=? AND tax_id=?",
+        [id, houseId, taxId],
+        (err, sheets) => {
           if (!err) {
-            resolve(result);
+            if (sheets.length !== 0) {
+              db.run(
+                "UPDATE payments SET paid_amount=? WHERE sheet_id=? AND house_id=? AND tax_id=?",
+                [amount, id, houseId, taxId],
+                (err, result) => {
+                  if (!err) {
+                    resolve(result);
+                  } else {
+                    reject(err);
+                  }
+                }
+              );
+            } else {
+              db.run(
+                "INSERT INTO payments (sheet_id, house_id, tax_id, paid_amount) VALUES(?, ?, ?, ?)",
+                [id, houseId, taxId, amount],
+                (err, result) => {
+                  if (!err) {
+                    resolve(result);
+                  } else {
+                    reject(err);
+                  }
+                }
+              );
+            }
           } else {
             reject(err);
           }
@@ -64,7 +112,7 @@ module.exports = {
     const previousBalance = () => {
       return new Promise((resolve, reject) => {
         db.all(
-          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) ${queryClause} group by p.tax_id, p.house_id LIMIT ${offset},${pageSize}`,
+          `SELECT h.id as house_id, h.owner_name, t.tax, t.id as tax_id, SUM(p.amount - p.paid_amount) as balance FROM houses h INNER JOIN payments p ON p.house_id = h.id INNER JOIN taxes t on p.tax_id = t.id INNER JOIN sheets s ON s.id = p.sheet_id WHERE s.to_year < (SELECT to_year FROM sheets WHERE id=?) AND village_id=1 ${queryClause} group by p.tax_id, p.house_id`,
           [id],
           (err, sheet) => {
             if (!err) {
@@ -80,7 +128,7 @@ module.exports = {
     const currentBalance = () => {
       return new Promise((resolve, reject) => {
         db.all(
-          `SELECT h.id as house_id, h.owner_name, t.id as tax_id,t.tax, p.paid_amount, p.amount FROM houses h INNER JOIN taxes t INNER JOIN payments p on t.id = p.tax_id AND p.house_id = h.id AND p.sheet_id=? ${queryClause} LIMIT ${offset},${pageSize}`,
+          `SELECT h.id as house_id, h.owner_name, t.id as tax_id,t.tax, p.paid_amount, p.amount FROM houses h INNER JOIN taxes t INNER JOIN payments p on t.id = p.tax_id AND p.house_id = h.id AND p.sheet_id=? ${queryClause}`,
           [id],
           (err, sheet) => {
             if (!err) {

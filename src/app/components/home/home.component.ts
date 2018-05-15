@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   currentPage = 1;
   pageSize;
   totalHouses;
+  query = "";
 
   constructor(
     private auth: AuthService,
@@ -41,17 +42,18 @@ export class HomeComponent implements OnInit {
     this.frmTaxDetails = new FormGroup({
       taxName: new FormControl("", Validators.required)
     });
-    this.messaging.on("house-search", message => {
+    this.messaging.on("house-search", query => {
       if (this.sheetDetails.id) {
         this.currentPage = 1;
-        this.loadSheet(this.sheetDetails.id, this.currentPage, message);
+        this.query = query;
+        this.loadSheet(this.sheetDetails.id, this.currentPage, query);
       }
     });
     this.messaging.on("reload-sheets", message => {
       if (this.selectedVillageId) {
         this.loadSheets(this.selectedVillageId);
       }
-      this.loadSheet(this.sheetDetails.id, this.currentPage);
+      this.loadSheet(this.sheetDetails.id, this.currentPage, this.query);
     });
   }
 
@@ -63,7 +65,8 @@ export class HomeComponent implements OnInit {
         if (this.sheets.length >= 1) {
           this.loadSheet(
             this.sheets[this.sheets.length - 1].id,
-            this.currentPage
+            this.currentPage,
+            this.query
           );
           this.sheetsAvailable = true;
         } else {
@@ -90,7 +93,7 @@ export class HomeComponent implements OnInit {
   onSelectedSheetChange(evt) {
     if (evt.target.selectedIndex != -1) {
       const sheetId = evt.target.options[evt.target.selectedIndex].value;
-      this.loadSheet(sheetId, this.currentPage);
+      this.loadSheet(sheetId, this.currentPage, this.query);
     }
   }
   onSelectedVillageChange(evt) {
@@ -211,7 +214,7 @@ export class HomeComponent implements OnInit {
       });
   }
   onPageChanged($event) {
-    this.loadSheet(this.sheetDetails.id, $event);
+    this.loadSheet(this.sheetDetails.id, $event, this.query);
     this.currentPage = $event;
   }
   onBtnNewHouseClick(evt) {

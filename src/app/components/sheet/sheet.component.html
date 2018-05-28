@@ -11,16 +11,12 @@
       <tr>
         <th>S.No</th>
         <th>{{ 'OWNER_NAME' | translate }}</th>
-        <th *ngFor="let availableTax of sheetDetails.availableTaxes" colspan="5">{{ availableTax.tax }} {{ 'TAX' | translate }}</th>
+        <th *ngFor="let availableTax of sheetDetails.availableTaxes">{{ availableTax.tax }} {{ 'TAX' | translate }}</th>
       </tr>
       <tr>
         <th>-</th>
         <th>-</th>
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
-          <th>{{ 'PREVIOUS' | translate }}</th>
-          <th>{{ 'CURRENT' | translate }}</th>
-          <th>{{ 'TOTAL' | translate }}</th>
-          <th>{{ 'PAID_AMOUNT' | translate }}</th>
           <th>{{ 'BALANCE' | translate }}</th>
         </ng-container>
       </tr>
@@ -38,74 +34,17 @@
         </td>
         <!-- List the tax and the amount paid -->
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes ">
-          <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id] ">
-            <td *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear ">
-              {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear }}
-            </td>
-            <td *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear ">
-              -
-            </td>
-            <td>
-              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear ">
-                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable ">
-                  {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear }} &nbsp;
-                </ng-container>
-              </ng-container>
-              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear &&
-        !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable ">
-                -
-              </ng-container>
-              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable
-        " (click)="onCurrentYearEditClick($event, availableHouse.id, availableTax.id) " href="# ">
-                <i class="fa fa-1x fa-pencil "></i>
-              </a>
-              <input type="text " (blur)="onCurrentYearBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)
-        " (keypress)="onCurrentYearKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id) " class="form-control "
-                *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYearEditable " [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0">
-            </td>
-            <td>
-              {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
-              || 0) }}
-            </td>
-            <td>
-              <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount ">
-                <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable ">
-                  {{ sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount }} &nbsp;
-                </ng-container>
-              </ng-container>
-              <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount && !sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable ">
-                -
-              </ng-container>
-              <a *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable
-        " (click)="onPaidAmountEditClick($event, availableHouse.id, availableTax.id) " href="# ">
-                <i class="fa fa-1x fa-pencil "></i>
-              </a>
-              <input type="text " (blur)="onPaidAmountBlur($event, sheetDetails.id,availableHouse.id, availableTax.id)
-        " (keypress)="onPaidAmountKeyPress($event, sheetDetails.id,availableHouse.id, availableTax.id) " class="form-control "
-                *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmountEditable " [value]="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount || 0">
-            </td>
-            <td>
+          <td>
+            <ng-container *ngIf="sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id] ">
               {{ parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].currentYear || 0) + parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].previousYear
               || 0) - parseInt(sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id].paidAmount || 0) }}
-            </td>
-          </ng-container>
-          <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id] ">
-            <td>-</td>
-            <td>
+            </ng-container>
+            <ng-container *ngIf="!sheetDetails.balanceSheet[availableHouse.id].taxes[availableTax.id] ">
               -
-              <a (click)="onCurrentYearAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id) " href="# ">
-                <i class="fa fa-1x fa-pencil "></i>
-              </a>
-            </td>
-            <td>0</td>
-            <td>
-              -
-              <a (click)="onPaidAmountAddClick($event, sheetDetails.id, availableHouse.id, availableTax.id) " href="# ">
-                <i class="fa fa-1x fa-pencil "></i>
-              </a>
-            </td>
-            <td>0</td>
-          </ng-container>
+            </ng-container>
+            &nbsp;
+            <a href="#" data-toggle="modal" (click)="onPaymentClick($event, availableHouse.id, availableTax.id)" data-target="#modal-tax">More</a>
+          </td>
         </ng-container>
       </tr>
     </table>
@@ -119,7 +58,97 @@
   </div>
 </div>
 
-
+<!-- Modal for showing additional tax details -->
+<div id="modal-tax" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Tax</h4>
+        <button data-dismiss="modal" class="close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedHouseId && selectedTaxId">
+          <table class="table table-bordered">
+            <tr>
+              <th>{{ 'PREVIOUS' | translate }}</th>
+              <th>{{ 'CURRENT' | translate }}</th>
+              <th>{{ 'TOTAL' | translate }}</th>
+              <th>{{ 'PAID_AMOUNT' | translate }}</th>
+            </tr>
+            <tr>
+              <ng-container *ngIf="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId]">
+                <td *ngIf="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].previousYear">
+                  {{ sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].previousYear }}
+                </td>
+                <td *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].previousYear">
+                  -
+                </td>
+                <td>
+                  <ng-container *ngIf="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYear ">
+                    <ng-container *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYearEditable ">
+                      {{ sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYear }} &nbsp;
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYear &&
+                                      !sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYearEditable ">
+                    -
+                  </ng-container>
+                  <a *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYearEditable
+                                      " (click)="onCurrentYearEditClick($event, selectedHouseId, selectedTaxId) " href="# ">
+                    <i class="fa fa-1x fa-pencil "></i>
+                  </a>
+                  <input type="text " (blur)="onCurrentYearBlur($event, sheetDetails.id, selectedHouseId, selectedTaxId)
+                                      " (keypress)="onCurrentYearKeyPress($event, sheetDetails.id, selectedHouseId, selectedTaxId) "
+                    class="form-control " *ngIf="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYearEditable "
+                    [value]="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYear || 0">
+                </td>
+                <td>
+                  {{ parseInt(sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].currentYear || 0) + parseInt(sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].previousYear
+                  || 0) }}
+                </td>
+                <td>
+                  <ng-container *ngIf="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmount ">
+                    <ng-container *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmountEditable ">
+                      {{ sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmount }} &nbsp;
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmount && !sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmountEditable ">
+                    -
+                  </ng-container>
+                  <a *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmountEditable
+                                      " (click)="onPaidAmountEditClick($event, selectedHouseId, selectedTaxId) " href="# ">
+                    <i class="fa fa-1x fa-pencil "></i>
+                  </a>
+                  <input type="text " (blur)="onPaidAmountBlur($event, sheetDetails.id, selectedHouseId, selectedTaxId)
+                                      " (keypress)="onPaidAmountKeyPress($event, sheetDetails.id, selectedHouseId, selectedTaxId) "
+                    class="form-control " *ngIf="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmountEditable "
+                    [value]="sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId].paidAmount || 0">
+                </td>
+              </ng-container>
+              <ng-container *ngIf="!sheetDetails.balanceSheet[selectedHouseId].taxes[selectedTaxId]">
+                <td>-</td>
+                <td>
+                  -
+                  <a (click)="onCurrentYearAddClick($event, sheetDetails.id, selectedHouseId, selectedTaxId) " href="# ">
+                    <i class="fa fa-1x fa-pencil "></i>
+                  </a>
+                </td>
+                <td>0</td>
+                <td>
+                  -
+                  <a (click)="onPaidAmountAddClick($event, sheetDetails.id, selectedHouseId, selectedTaxId) " href="# ">
+                    <i class="fa fa-1x fa-pencil"></i>
+                  </a>
+                </td>
+                <td>0</td>
+              </ng-container>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Modal for house details -->
 <div id="modal-house-details" class="modal fade">
   <div class="modal-dialog">

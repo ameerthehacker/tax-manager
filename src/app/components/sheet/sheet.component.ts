@@ -20,6 +20,8 @@ export class SheetComponent implements OnInit {
   @Input() currentPage: number;
   @Input() totalHouses: number;
   @Output() onPageChanged: EventEmitter<number> = new EventEmitter();
+  selectedHouseId;
+  selectedTaxId;
   editable = {};
 
   frmHouseDetails: FormGroup;
@@ -67,6 +69,10 @@ export class SheetComponent implements OnInit {
   }
   parseInt(str) {
     return new Number(str);
+  }
+  onPaymentClick(evt, houseId, taxId) {
+    this.selectedHouseId = houseId;
+    this.selectedTaxId = taxId;
   }
   onCurrentYearEditClick(evt, houseId, taxId) {
     evt.preventDefault();

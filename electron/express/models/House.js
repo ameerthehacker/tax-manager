@@ -9,7 +9,7 @@ module.exports = {
         queryClause = `WHERE owner_name LIKE '${query}%'`;
       }
       db.all(
-        `SELECT id, owner_name FROM houses ${queryClause} LIMIT ${offset},${pageSize}`,
+        `SELECT id, owner_name, house_number FROM houses ${queryClause} LIMIT ${offset},${pageSize}`,
         (err, houses) => {
           if (!err) {
             resolve(houses);

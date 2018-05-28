@@ -11,17 +11,11 @@
       <tr>
         <th>S.No</th>
         <th>{{ 'OWNER_NAME' | translate }}</th>
+        <th>{{ 'HOUSE' | translate }} {{ 'NUMBER' | translate }}</th>
         <th *ngFor="let availableTax of sheetDetails.availableTaxes">{{ availableTax.tax }} {{ 'TAX' | translate }}</th>
       </tr>
-      <tr>
-        <th>-</th>
-        <th>-</th>
-        <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes">
-          <th>{{ 'BALANCE' | translate }}</th>
-        </ng-container>
-      </tr>
       <tr *ngFor="let availableHouse of sheetDetails.availableHouses | paginate: { id: 'sheet', itemsPerPage: pageSize, currentPage: currentPage, totalItems: totalHouses }; let i=index">
-        <td>{{ i + 1 }}</td>
+        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
         <td>
           {{ availableHouse.owner_name }} &nbsp;
           <a href="# " (click)="onHouseDetailsEditClick($event) ">
@@ -31,6 +25,9 @@
         i + 1, villageName: villageName } ">
             <i class="fa fa-print "></i>
           </a>
+        </td>
+        <td>
+          {{ availableHouse.house_number }} &nbsp;
         </td>
         <!-- List the tax and the amount paid -->
         <ng-container *ngFor="let availableTax of sheetDetails.availableTaxes ">
